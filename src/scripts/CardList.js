@@ -1,5 +1,5 @@
 import { Api } from './Api';
-import { urlApi, tokenApi, errorCollection } from '../index';
+import { serverUrl, tokenApi, errorCollection } from '../index';
 
 import { Card } from './Card';
 
@@ -17,7 +17,7 @@ export class CardList { // класс отрисовки существующи�
     };
 
     const cardJSON = JSON.stringify(card);
-    const aCard = new Api(`${urlApi}cards`, tokenApi)
+    const aCard = new Api(`${serverUrl}cards`, tokenApi)
       .postCard(cardJSON)
       .then((res) => {
         const addButton = document.querySelector('.popup__button');
@@ -29,7 +29,7 @@ export class CardList { // класс отрисовки существующи�
   }
 
   render() {
-    const loadCards = new Api(`${urlApi}cards`, tokenApi)
+    const loadCards = new Api(`${serverUrl}cards`, tokenApi)
       .getInitialCards()
       .then((cards) => {
         cards.forEach((e) => {

@@ -1,5 +1,7 @@
 import {
-  popupNew, formNew, popupEdit, popupAva, errorCollection, submitActiveFormNew, submitActiveFormEdit, submitActiveFormAva, titleNewInput, addLinkNewInput, userNameInput, userAboutInput, urlApi, tokenApi, existingCard, avaLinkInput, formAva,
+  popupNew, formNew, popupEdit, popupAva, errorCollection, submitActiveFormNew, submitActiveFormEdit,
+  submitActiveFormAva, titleNewInput, addLinkNewInput, userNameInput, userAboutInput, serverUrl,
+  tokenApi, existingCard, avaLinkInput, formAva,
 } from '../index';
 
 
@@ -126,7 +128,7 @@ export class Popup { // класс открытия, закрытия попап
 
     const infoJson = JSON.stringify(info);
 
-    const infoLoad = new Api(`${urlApi}users/me`, tokenApi)
+    const infoLoad = new Api(`${serverUrl}users/me`, tokenApi)
       .postInfo(infoJson)
       .then((res) => {
         console.log(res);
@@ -173,7 +175,7 @@ export class Popup { // класс открытия, закрытия попап
 
     const linkJson = JSON.stringify(linkObj);
 
-    const loadAva = new Api(`${urlApi}users/me/avatar`, tokenApi)
+    const loadAva = new Api(`${serverUrl}users/me/avatar`, tokenApi)
       .addAvatar(linkJson)
       .then((res) => {
         addButton.textContent = errorCollection.save;
