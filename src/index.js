@@ -5,7 +5,7 @@ import {Card} from './scripts/Card';
 import {Popup} from './scripts/Popup';
 
 // переменные
-const serverUrl = NODE_ENV === 'development' ?
+export const serverUrl = NODE_ENV === 'development' ?
 'http://praktikum.tk/cohort4' : 'https://praktikum.tk/cohort4';
 export const root = document.querySelector('.root');
 export const placesList = root.querySelector('.places-list');
@@ -29,7 +29,7 @@ export const formAva = document.forms.ava;
 export const submitActiveFormAva = validButton.bind(formAva);
 export const avaLinkInput = formAva.elements.link;
 
-export const urlApi = 'http://95.216.175.5/cohort4/';
+export const serverUrl = 'http://95.216.175.5/cohort4/';
 export const tokenApi = 'e3c11277-8568-44d8-8899-1627e817d3a6';
 
 export const errorCollection = { // коллекция ошибок валидации
@@ -44,7 +44,7 @@ export const errorCollection = { // коллекция ошибок валида
   ESCAPE_CODE: 27
 };
 
-const loadInfo = new Api(urlApi + 'users/me', tokenApi).  // загрузка инфо о пользователе с сервера
+const loadInfo = new Api(serverUrl + 'users/me', tokenApi).  // загрузка инфо о пользователе с сервера
 getInitialInfo()
 .then(info => {
   
