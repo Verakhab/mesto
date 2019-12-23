@@ -34,12 +34,12 @@ module.exports = {
                             bypassOnDebug: true,
                             disable: true,
                         }
-                    },
+                    }
+                ]
+            },
             {
                 test: /\.(eot|ttf|woff|woff2)$/,
                 loader: 'file-loader?name=./vendor/[name].[ext]'
-            }
-                ]
             },
             {
                 test: /\.css$/i,
