@@ -2,7 +2,7 @@ import {
   userNameInput, serverUrl, tokenApi, root, errorCollection, placesList,
 } from '../index';
 import { Api } from './Api';
-
+import Close from './../images/close.svg';
 
 export class Card { // класс создания карточки, лайка и удаления
   constructor(container, name, link, likes, id) {
@@ -116,7 +116,7 @@ export class Card { // класс создания карточки, лайка 
     darkLayer.appendChild(imageMax);
 
     const imageClose = this.createElem('img', 'popup__close-image');
-    imageClose.setAttribute('src', './images/close.svg');
+    imageClose.setAttribute('src', `${Close}`);
     imageMax.appendChild(imageClose);
 
     imageClose.addEventListener('click', () => {

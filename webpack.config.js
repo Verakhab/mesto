@@ -25,7 +25,8 @@ module: {
             {
         loader: 'file-loader',
         options: {
-            name: '[name].[ext]'
+            name: 'images/[name].[ext]',
+            esModule: false
         }
         },
         {
@@ -38,18 +39,22 @@ module: {
         ]
         },
         {
-        test: /\.css$/i, 
+        test: /\.css$/, 
         use: [
             (isDev ? 'style-loader' : MiniCssExtractPlugin.loader),
             'css-loader', 
             'postcss-loader'
         ]
         },
-        {
-        test: /\.(eot|ttf|woff|woff2)$/,
-        loader: 'file-loader?name=./vendor/[name].[ext]'
-        }
         ]
+    },
+    resolve: {
+        alias: {
+            images: path.resolve(__dirname, 'images')
+    }
+    },
+    devServer: {
+        overlay: true
     },
 plugins: [ 
     new MiniCssExtractPlugin({filename: 'style.[contenthash].css'}),

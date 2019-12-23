@@ -7,6 +7,13 @@
 @media screen and (max-width: 980px) {
   .user-info__button {
     position: static;
-    margin: 25px 0 5px 107px;
+    margin: 25px 0 5px 93px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .user-info__button {
+    position: static;
+    margin: 25px 0 5px 35px;
   }
 }
