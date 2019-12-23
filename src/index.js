@@ -6,6 +6,8 @@ import {Popup} from './scripts/Popup';
 
 // переменные
 
+export const serverUrl = NODE_ENV === 'development' ?
+'http://praktikum.tk/cohort4' : 'https://praktikum.tk/cohort4';
 export const root = document.querySelector('.root');
 export const placesList = root.querySelector('.places-list');
 export const popupNew = root.querySelector('.popup');
@@ -28,8 +30,6 @@ export const formAva = document.forms.ava;
 export const submitActiveFormAva = validButton.bind(formAva);
 export const avaLinkInput = formAva.elements.link;
 
-export const serverUrl = NODE_ENV === 'development' ?
-'http://praktikum.tk/cohort4/' : 'https://praktikum.tk/cohort4/';
 export const tokenApi = 'e3c11277-8568-44d8-8899-1627e817d3a6';
 
 export const errorCollection = { // коллекция ошибок валидации
