@@ -15,7 +15,7 @@ import {
 // переменные
 
 export const serverUrl = NODE_ENV === 'development' ?
-    'http://praktikum.tk/cohort4' : 'https://praktikum.tk/cohort4';
+    'http://praktikum.tk/cohort4/' : 'https://praktikum.tk/cohort4/';
 export const root = document.querySelector('.root');
 export const placesList = root.querySelector('.places-list');
 export const popupNew = root.querySelector('.popup');

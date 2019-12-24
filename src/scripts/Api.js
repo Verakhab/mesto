@@ -11,7 +11,7 @@ export class Api {
               },
           })
           .then((res) => {
-              this.responseСheck(res);
+              this.responseCheck(res);
               return res.json();
           })
           .catch((err) => {
@@ -26,7 +26,7 @@ export class Api {
               },
           })
           .then((resj) => {
-              this.responseСheck(resj);
+              this.responseCheck(resj);
               return resj.json();
           })
           .catch((err) => {
@@ -46,7 +46,7 @@ export class Api {
               body: this.json,
           })
           .then((res) => {
-              this.responseСheck(res);
+              this.responseCheck(res);
               return res.json();
           })
           .catch((err) => {
@@ -66,7 +66,7 @@ export class Api {
               body: this.json,
           })
           .then((res) => {
-              this.responseСheck(res);
+              this.responseCheck(res);
               return res.json();
           })
           .catch((err) => {
@@ -83,7 +83,7 @@ export class Api {
               },
           })
           .then((res) => {
-              this.responseСheck(res);
+              this.responseCheck(res);
               return res.json();
           })
           .catch((err) => {
@@ -102,7 +102,7 @@ export class Api {
               },
           })
           .then((res) => {
-              this.responseСheck(res);
+              this.responseCheck(res);
               return res.json();
           })
           .catch((err) => {
@@ -119,7 +119,7 @@ export class Api {
               },
           })
           .then((res) => {
-              this.responseСheck(res);
+              this.responseCheck(res);
               return res.json();
           })
           .catch((err) => {
@@ -138,7 +138,7 @@ export class Api {
               body: this.json,
           })
           .then((res) => {
-              this.responseСheck(res);
+              this.responseCheck(res);
               return res.json();
           })
           .catch((err) => {

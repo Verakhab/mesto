@@ -24,9 +24,14 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(png|jpg|gif|ico|svg)$/,
+                test: /\.(png|jpg|gif|ico|svg)$/i,
                 use: [
-                    'file-loader?name=images/[name].[ext]',
+                    {
+                        loader: 'file-loader?name=images/[name].[ext]',
+                        options: {
+                            esModule: false,
+                        }
+                    },
                     {
                         loader: 'image-webpack-loader',
                         options: {
@@ -38,8 +43,8 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(eot|ttf|woff|woff2)$/,
-                loader: 'file-loader?name=./vendor/[name].[ext]'
+                test: /\.(eot|ttf|woff|woff2)$/i,
+                loader: 'file-loader?name=vendor/[name].[ext]'
             },
             {
                 test: /\.css$/i,
