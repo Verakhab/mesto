@@ -26,20 +26,11 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif|ico|svg)$/i,
                 use: [
+                        'file-loader?name=images/[name].[ext]',
                     {
-                        loader: 'file-loader?name=images/[name].[ext]',
-                        options: {
-                            esModule: false,
-                        }
+                            loader: 'image-webpack-loader',
+                            options: {}
                     },
-                    {
-                        loader: 'image-webpack-loader',
-                        options: {
-                            esModule: false,
-                            bypassOnDebug: true,
-                            disable: true,
-                        }
-                    }
                 ]
             },
             {
