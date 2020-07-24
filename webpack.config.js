@@ -1,25 +1,26 @@
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const isDev = process.env.NODE_ENV === 'development';
 
 
 module.exports = {
     entry: {
-        main: './src/index.js'
+        main: './src/index.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[chunkhash].js'
+        filename: '[name].[chunkhash].js',
     },
     module: {
         rules: [{
                 test: /\.js$/,
                 use: {
-                    loader: "babel-loader"
+                    loader: 'babel-loader',
                 },
                 exclude: /node_modules/
             },
@@ -75,6 +76,14 @@ module.exports = {
         new WebpackMd5Hash(),
         new webpack.DefinePlugin({
             'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-        })
+        }),
+        new CopyPlugin({
+          patterns: [
+              {
+                  from: 'src/images',
+                  to: 'images',
+              }
+          ]
+      }),
     ]
 };
