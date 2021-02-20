@@ -1,13 +1,12 @@
 export class Api {
-  constructor(url, token) {
+  constructor(url) {
       this.url = url;
-      this.token = token;
   }
 
   getInitialInfo() {
       return fetch(this.url, {
               headers: {
-                  authorization: this.token,
+                authorization: `Bearer ${localStorage.getItem('token')}`,
               },
           })
           .then((res) => {
@@ -22,7 +21,7 @@ export class Api {
   getInitialCards() {
       return fetch(this.url, {
               headers: {
-                  authorization: this.token,
+                authorization: `Bearer ${localStorage.getItem('token')}`,
               },
           })
           .then((resj) => {
@@ -40,8 +39,7 @@ export class Api {
 
               method: 'PATCH',
               headers: {
-                  authorization: this.token,
-                  'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
               },
               body: this.json,
           })
@@ -60,8 +58,7 @@ export class Api {
 
               method: 'POST',
               headers: {
-                  authorization: this.token,
-                  'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
               },
               body: this.json,
           })
@@ -79,7 +76,8 @@ export class Api {
 
               method: 'DELETE',
               headers: {
-                  authorization: this.token,
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
               },
           })
           .then((res) => {
@@ -97,8 +95,8 @@ export class Api {
               method: 'PUT',
               body: this.json,
               headers: {
-                  authorization: this.token,
-                  'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
               },
           })
           .then((res) => {
@@ -115,7 +113,7 @@ export class Api {
 
               method: 'DELETE',
               headers: {
-                  authorization: this.token,
+                authorization: `Bearer ${localStorage.getItem('token')}`,
               },
           })
           .then((res) => {
@@ -133,7 +131,7 @@ export class Api {
 
               method: 'PATCH',
               headers: {
-                  authorization: this.token,
+                authorization: `Bearer ${localStorage.getItem('token')}`,
               },
               body: this.json,
           })
