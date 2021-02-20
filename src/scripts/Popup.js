@@ -12,7 +12,6 @@ import {
   userNameInput,
   userAboutInput,
   serverUrl,
-  tokenApi,
   existingCard,
   avaLinkInput,
   formAva,
@@ -133,27 +132,35 @@ export class Popup { // класс открытия, закрытия попап
   }
 
   createInfo(nameUs, aboutUs) { // изменениe инфо о пользователе
-      const userInfoName = document.querySelector('.user-info__name');
-      const userInfoJob = document.querySelector('.user-info__job');
+    const userInfoName = document.querySelector('.user-info__name');
+    const userInfoJob = document.querySelector('.user-info__job');
 
-      const info = {
+    const info = {
+        nameUs,
+        aboutUs,
+    };
 
-          name: nameUs,
-          about: aboutUs,
-      };
+    const infoJson = JSON.stringify(info);
 
-      const infoJson = JSON.stringify(info);
-
-      const infoLoad = new Api(`${serverUrl}users/me`, tokenApi)
-          .postInfo(infoJson)
-          .then((res) => {
-              console.log(res);
-              const editButton = document.querySelector('.popup__button_edit');
-              editButton.textContent = errorCollection.save;
-              userInfoName.textContent = nameUs;
-              userInfoJob.textContent = aboutUs;
-          });
-  }
+    const infoLoad = new Api(`${serverUrl}users/me`)
+        .postInfo(infoJson)
+        .catch((err) => {
+            console.log(err, '55');
+        })
+        .then((res) => {
+            console.log(res, '5');
+            const editButton = document.querySelector('.popup__button_edit');
+            editButton.textContent = errorCollection.load;
+            if (res) {
+            editButton.textContent = errorCollection.save;
+            userInfoName.textContent = res.name;
+            userInfoJob.textContent = res.about;
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
 
   addInfo(e) { // функция добавления инфо о пользователе
       e.preventDefault();
@@ -191,7 +198,7 @@ export class Popup { // класс открытия, закрытия попап
 
       const linkJson = JSON.stringify(linkObj);
 
-      const loadAva = new Api(`${serverUrl}users/me/avatar`, tokenApi)
+      const loadAva = new Api(`${serverUrl}users/me/avatar`)
           .addAvatar(linkJson)
           .then((res) => {
               addButton.textContent = errorCollection.save;

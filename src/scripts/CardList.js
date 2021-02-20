@@ -3,7 +3,6 @@ import {
 } from './Api';
 import {
   serverUrl,
-  tokenApi,
   errorCollection
 } from '../index';
 
@@ -25,7 +24,7 @@ export class CardList { // класс отрисовки существующи�
       };
 
       const cardJSON = JSON.stringify(card);
-      const aCard = new Api(`${serverUrl}cards`, tokenApi)
+      const aCard = new Api(`${serverUrl}cards`)
           .postCard(cardJSON)
           .then((res) => {
               const addButton = document.querySelector('.popup__button');
@@ -37,7 +36,7 @@ export class CardList { // класс отрисовки существующи�
   }
 
   render() {
-      const loadCards = new Api(`${serverUrl}cards`, tokenApi)
+      const loadCards = new Api(`${serverUrl}cards`)
           .getInitialCards()
           .then((cards) => {
               cards.forEach((e) => {
