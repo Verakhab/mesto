@@ -12,7 +12,6 @@ import {
   userNameInput,
   userAboutInput,
   serverUrl,
-  tokenApi,
   existingCard,
   avaLinkInput,
   formAva,
@@ -137,14 +136,13 @@ export class Popup { // класс открытия, закрытия попап
       const userInfoJob = document.querySelector('.user-info__job');
 
       const info = {
-
-          name: nameUs,
-          about: aboutUs,
+          nameUs,
+          aboutUs,
       };
 
       const infoJson = JSON.stringify(info);
 
-      const infoLoad = new Api(`${serverUrl}users/me`, tokenApi)
+      const infoLoad = new Api(`${serverUrl}users/me`)
           .postInfo(infoJson)
           .then((res) => {
               console.log(res);
@@ -191,7 +189,7 @@ export class Popup { // класс открытия, закрытия попап
 
       const linkJson = JSON.stringify(linkObj);
 
-      const loadAva = new Api(`${serverUrl}users/me/avatar`, tokenApi)
+      const loadAva = new Api(`${serverUrl}users/me/avatar`)
           .addAvatar(linkJson)
           .then((res) => {
               addButton.textContent = errorCollection.save;

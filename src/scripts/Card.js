@@ -1,7 +1,6 @@
 import {
   userNameInput,
   serverUrl,
-  tokenApi,
   root,
   errorCollection,
   placesList,
@@ -78,7 +77,7 @@ export class Card { // класс создания карточки, лайка 
   like(e) { // лайкнуть карточку
       if (e.target.classList.contains('place-card__like-icon_liked')) {
           e.target.classList.toggle('place-card__like-icon_liked');
-          const loadObj = new Api(`${serverUrl}cards/like/${this.id}`, tokenApi)
+          const loadObj = new Api(`${serverUrl}cards/like/${this.id}`)
               .deleteLikeCard()
               .then((info) => {
                   e.target.nextElementSibling.textContent = info.likes.length;
@@ -86,7 +85,7 @@ export class Card { // класс создания карточки, лайка 
               });
       } else {
           e.target.classList.toggle('place-card__like-icon_liked');
-          const loadObj = new Api(`${serverUrl}cards/like/${this.id}`, tokenApi)
+          const loadObj = new Api(`${serverUrl}cards/like/${this.id}`)
               .likeCard()
               .then((info) => {
                   e.target.nextElementSibling.textContent = info.likes.length;
@@ -98,7 +97,7 @@ export class Card { // класс создания карточки, лайка 
   removeCard(e) { // удалить карточку
       e.stopPropagation();
 
-      const removeCard = new Api(`${serverUrl}cards/${this.id}`, tokenApi)
+      const removeCard = new Api(`${serverUrl}cards/${this.id}`)
           .reCard()
           .then((res) => {
               if (window.confirm(errorCollection.remove)) {
