@@ -79,6 +79,7 @@ export class Api {
               method: 'DELETE',
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
               },
           })
           .then((res) => {

@@ -15,7 +15,7 @@ import {
 // переменные
 
 export const serverUrl = NODE_ENV === 'development' ?
-    'http://mest.ml/' : 'https://mest.ml/';
+    'http://api.mest.ml/' : 'https://api.mest.ml/';
 export const root = document.querySelector('.root');
 export const placesList = root.querySelector('.places-list');
 export const popupNew = root.querySelector('.popup');
