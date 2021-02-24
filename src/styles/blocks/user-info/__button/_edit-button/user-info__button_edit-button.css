@@ -25,13 +25,13 @@
 @media screen and (max-width: 980px) {
   .button.user-info__button.user-info__button_edit-button {
     position: static;
-    margin: 25px 0 0 164px;
+    margin: 25px 0;
   }
 }
 
 @media screen and (max-width: 320px) {
   .button.user-info__button.user-info__button_edit-button {
     position: static;
-    margin: 25px 0 0 93px;
+    margin: 25px 0;
   }
 }

@@ -52,21 +52,22 @@ export const errorCollection = { // коллекция ошибок валида
     ESCAPE_CODE: 27
 };
 
-const loadInfo = new Api(serverUrl + 'users/me'). // загрузка инфо о пользователе с сервера
-getInitialInfo()
-    .then(info => {
+if(localStorage.getItem('token')) {
+    const userInitial = new Api(serverUrl + 'users').
+    getInitialInfo()
+        .then(user => {
+            const userInfoName = document.querySelector('.user-info__name');
+            const userInfoJob = document.querySelector('.user-info__job');
+            const userInfoFoto = document.querySelector('.user-info__photo');
 
-        const userInfoName = document.querySelector('.user-info__name');
-        const userInfoJob = document.querySelector('.user-info__job');
-
-        document.querySelector('.user-info__photo').
-        setAttribute('style', `background-image: url(${info.avatar})`);
-        userInfoName.textContent = info.name;
-        userInfoJob.textContent = info.about;
-        userNameInput.value = info.name;
-        userAboutInput.value = info.about;
-        submitActiveFormEdit();
-    })
+            userInfoFoto.setAttribute('style', `background-image: url(${user.avatar})`);
+            userInfoName.textContent = user.name;
+            userInfoJob.textContent = user.about;
+            userNameInput.value = user.name;
+            userAboutInput.value = user.about;
+            submitActiveFormEdit();
+        })
+}
 
 export const existingCard = new CardList(placesList);
 
