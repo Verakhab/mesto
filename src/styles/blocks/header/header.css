@@ -1,7 +1,11 @@
+@import url('./__button/header__button.css');
+@import url('./__button-container/header__button-container.css');
+
 .header {
   width: 64.2vw;
   min-height: 132px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #A5A5A5;
 }

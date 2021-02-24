@@ -1,0 +1,6 @@
+.header__button-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    top: 1.4vh;
+}
