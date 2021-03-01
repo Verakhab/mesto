@@ -108,7 +108,10 @@ function requestApi(e) {
         break;
         case document.forms.upavatar:
             const avatarNew = document.forms.upavatar.link.value;
-            const jsonAvatarNew = JSON.stringify(avatarNew);
+            const avaNew = {
+              avatarNew
+            }
+            const jsonAvatarNew = JSON.stringify(avaNew);
             console.log(jsonAvatarNew);
             api.upAvatar(jsonAvatarNew)
                 .then(res => console.log(res));
