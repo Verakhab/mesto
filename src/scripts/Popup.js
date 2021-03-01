@@ -1,266 +1,138 @@
 import {
-  popupNew,
-  formNew,
-  popupEdit,
-  popupAva,
-  errorCollection,
-  submitActiveFormNew,
-  submitActiveFormEdit,
-  submitActiveFormAva,
-  titleNewInput,
-  addLinkNewInput,
-  userNameInput,
-  userAboutInput,
-  serverUrl,
-  existingCard,
-  avaLinkInput,
-  formAva,
-} from '../index';
-
-
+    errorCollection,
+} from './constants/index';
 import {
-  Api
-} from './Api';
+    addClassOpen,
+    removeClassOpen,
+} from './utils/utils';
 
-
-export class Popup { // класс открытия, закрытия попапов
-  constructor() {
-      this.popupNew = document.querySelector('.popup');
-      this.popupEdit = document.querySelector('.popup_edit');
-      this.popupAva = document.querySelector('.popup_ava');
-      this.popupButtonOpen = document.querySelector('.profile');
-      this.open = this.open.bind(this);
-      this.close = this.close.bind(this);
-      this.validatorForm = this.validatorForm.bind(this);
-      this.validTextInput = this.validTextInput.bind(this);
-      this.validLinkInput = this.validLinkInput.bind(this);
-      this.addInfo = this.addInfo.bind(this);
-      this.addCard = this.addCard.bind(this);
-      this.addAva = this.addAva.bind(this);
-      this.handleEscClose = this.handleEscClose.bind(this);
-      this.addListener();
+export class Popup {
+  constructor(popupContainer, callbackRequest) {
+    this._callbackRequest = callbackRequest;
+    this._popupContainer = popupContainer;
+    this._validatorForm = this._validatorForm.bind(this);
+    this._handleEscClose = this._handleEscClose.bind(this);
+    this._handleRequest = this._handleRequest.bind(this);
   }
 
-  open(e) {
-      if (e.target.classList.contains('user-info__button_info')) {
-          popupNew.classList.add('popup_is-opened');
-          submitActiveFormNew();
-      }
-
-      if (e.target.classList.contains('user-info__button_edit-button')) {
-          popupEdit.classList.add('popup_is-opened');
-          submitActiveFormEdit();
-      }
-
-      if (e.target.classList.contains('user-info__photo')) {
-          popupAva.classList.add('popup_is-opened');
-          submitActiveFormAva();
-      }
-
-      document.addEventListener('keyup', this.handleEscClose);
+  open(form) {
+    this._popupContainer.lastElementChild.appendChild(form);
+    addClassOpen(this._popupContainer);
+    this._addListener();
   }
 
-  close(e) {
-      this.popupNew.classList.remove('popup_is-opened');
-      this.popupEdit.classList.remove('popup_is-opened');
-      this.popupAva.classList.remove('popup_is-opened');
-
-      if (e.target.classList.contains('popup__close')) {
-          popupNew.classList.remove('popup_is-opened');
-      }
-
-      if (e.target.classList.contains('popup__close_edit')) {
-          popupEdit.classList.remove('popup_is-opened');
-      }
-
-      if (e.target.classList.contains('popup__close_ava')) {
-          popupAva.classList.remove('popup_is-opened');
-      }
+  close() {
+    removeClassOpen(this._popupContainer);
+    this._removeListener();
+    this._popupContainer.querySelector('.tem').remove();
   }
 
-  handleEscClose(e) {
-      if (e.keyCode === errorCollection.ESCAPE_CODE) {
-          this.close();
-      }
+  _handleEscClose(e) {
+    if (e.keyCode === errorCollection.ESCAPE_CODE) {
+        this.close();
+    }
   }
 
-  validatorForm(e) { // валидация формы
-      const validator = e.target.name === 'link' ?
-          this.validLinkInput :
-          this.validTextInput;
-
-      validator(e.target);
-      submitActiveFormNew();
-      submitActiveFormEdit();
-      submitActiveFormAva();
+  _handleRequest(e) {
+    return this._callbackRequest(e);
   }
 
-  validTextInput(textInput) { // валидация поля ввода "текст"
-      let error = '';
-
-      if (!textInput.checkValidity()) {
-          if (textInput.validity.tooShort || textInput.validity.tooLong) {
-              error = errorCollection.errorLength;
-          }
-
-          if (textInput.validity.valueMissing) {
-              error = errorCollection.errorAlways;
-          }
-      }
-
-      if (textInput.nextElementSibling !== null) {
-          textInput.nextElementSibling.textContent = error;
-      }
+  _validatorForm(e) {
+    switch (e.target.name) {
+        case 'link':
+            this._validLinkInput(e.target);
+            break;
+        case 'email':
+            this._validEmailInput(e.target);
+            break;
+        default:
+            this._validTextInput(e.target);
+    }
+    this._validButton();
   }
 
-  validLinkInput(linkInput) { // валидация поля ввода "ссылка"
-      let error = '';
-
-      if (!linkInput.checkValidity()) {
-          if (linkInput.validity.valueMissing) {
-              error = errorCollection.errorAlways;
-          }
-
-          if (linkInput.validity.typeMismatch) {
-              error = errorCollection.errorLink;
-          }
-      }
-
-      if (linkInput.nextElementSibling !== null) {
-          linkInput.nextElementSibling.textContent = error;
-      }
+  _validTextInput(textInput) {
+    let error = '';
+    if (!textInput.checkValidity()) {
+        if (textInput.validity.tooShort || textInput.validity.tooLong) {
+            error = errorCollection.errorLength;
+        }
+        if (textInput.validity.valueMissing) {
+            error = errorCollection.errorAlways;
+        }
+    }
+    if (textInput.nextElementSibling !== null) {
+        textInput.nextElementSibling.textContent = error;
+    }
   }
 
-  createInfo(nameUs, aboutUs) { // изменениe инфо о пользователе
+  _validLinkInput(linkInput) {
+    let error = '';
+    if (!linkInput.checkValidity()) {
+        if (linkInput.validity.valueMissing) {
+            error = errorCollection.errorAlways;
+        }
+        if (linkInput.validity.typeMismatch) {
+            error = errorCollection.errorLink;
+        }
+    }
+    if (linkInput.nextElementSibling !== null) {
+        linkInput.nextElementSibling.textContent = error;
+    }
+  }
 
-    const userInfoName = document.querySelector('.user-info__name');
-    const userInfoJob = document.querySelector('.user-info__job');
+  _validEmailInput(emailInput) {
+    let error = '';
+    if (!emailInput.checkValidity()) {
+        if (emailInput.validity.valueMissing) {
+            error = errorCollection.errorAlways;
+        }
+        if (emailInput.validity.typeMismatch) {
+            error = errorCollection.errorEmail;
+        }
+    }
+    if (emailInput.nextElementSibling !== null) {
+        emailInput.nextElementSibling.textContent = error;
+    }
+  }
 
-    const info = {
-        nameUs,
-        aboutUs,
-    };
-
-    const infoJson = JSON.stringify(info);
-
-    const infoLoad = new Api(`${serverUrl}users/me`)
-        .postInfo(infoJson)
-        .catch((err) => {
-            console.log(err, '55');
-        })
-        .then((res) => {
-            console.log(res, '5');
-            const editButton = document.querySelector('.popup__button_edit');
-            editButton.textContent = errorCollection.load;
-            if (res) {
-            editButton.textContent = errorCollection.save;
-            userInfoName.textContent = res.name;
-            userInfoJob.textContent = res.about;
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+  _validButton() {
+    const formButton = document.forms[0].querySelector('[type=submit]');
+    if (document.forms[0].checkValidity()) {
+        formButton.
+        setAttribute('style', 'background-color: black; color: white;');
+        formButton.disabled = !document.forms[0].checkValidity();
+    } else {
+        formButton.
+        removeAttribute('style', 'background-color: black; color: white;');
+        formButton.disabled = !document.forms[0].checkValidity();
+    }
 }
 
-  addInfo(e) { // функция добавления инфо о пользователе
-      e.preventDefault();
-
-      const editButton = document.querySelector('.popup__button_edit');
-      editButton.textContent = errorCollection.load;
-      const userInfo = document.querySelector('.user-info');
-
-      this.createInfo(userNameInput.value, userAboutInput.value);
-
-      popupEdit.classList.remove('popup_is-opened');
+  _addListener() {
+    document.forms[0]
+        .addEventListener('click', this._validatorForm);
+    document.forms[0]
+        .addEventListener('input', this._validatorForm);
+    document.forms[0].querySelector('[type=submit]')
+        .addEventListener('click', this._handleRequest);
+    document
+        .addEventListener('keyup', this._handleEscClose);
+    
   }
 
-  addCard(e) { // функция добавления новой карточки
-      e.preventDefault();
-
-      const addButton = document.querySelector('.popup__button');
-      addButton.textContent = errorCollection.load;
-
-      existingCard.addCard(titleNewInput.value, addLinkNewInput.value, []);
-
-      formNew.reset();
-
-      popupNew.classList.remove('popup_is-opened');
-  }
-
-  addAva(e) { // функция добавления новой карточки
-      e.preventDefault();
-
-      const addButton = document.querySelector('.popup__button_ava');
-      addButton.textContent = errorCollection.load;
-      const linkObj = {
-          avatar: `${avaLinkInput.value}`,
-      };
-
-      const linkJson = JSON.stringify(linkObj);
-
-      const loadAva = new Api(`${serverUrl}users/me/avatar`)
-          .addAvatar(linkJson)
-          .then((res) => {
-              addButton.textContent = errorCollection.save;
-              console.log(res);
-          });
-
-      formAva.reset();
-
-      popupAva.classList.remove('popup_is-opened');
-  }
-
-  addListener() {
-      this.popupButtonOpen
-          .addEventListener('click', this.open); // открыть попап
-
-      this.popupNew
-          .querySelector('.popup__close')
-          .addEventListener('click', this.close); // закрытие попапа "новое место"
-
-      this.popupEdit
-          .querySelector('.popup__close_edit')
-          .addEventListener('click', this.close); // закрытие попапа "инфо о пользователе"
-
-      this.popupAva
-          .querySelector('.popup__close_ava')
-          .addEventListener('click', this.close);
-
-      this.popupEdit
-          .querySelector('.popup__form_edit')
-          .addEventListener('submit', this.addInfo);
-
-      this.popupNew
-          .querySelector('.popup__form')
-          .addEventListener('submit', this.addCard);
-
-      this.popupAva
-          .querySelector('.popup__form_ava')
-          .addEventListener('submit', this.addAva);
-
-      this.popupNew
-          .querySelector('.popup__form')
-          .addEventListener('input', this.validatorForm); // валидация формы "новое место" при нажатии клавиши
-
-      this.popupEdit
-          .querySelector('.popup__form_edit')
-          .addEventListener('input', this.validatorForm); // валидация формы "инфо о пользователе" при нажатии клавиши
-
-      this.popupNew
-          .querySelector('.popup__form')
-          .addEventListener('click', this.validatorForm); // валидация поля "наименование" при клике
-
-      this.popupEdit
-          .querySelector('.popup__form_edit')
-          .addEventListener('click', this.validatorForm); // валидация поля "ссылка" при клике
-
-      this.popupAva
-          .querySelector('.popup__form_ava')
-          .addEventListener('input', this.validatorForm);
-
-      this.popupAva
-          .querySelector('.popup__form_ava')
-          .addEventListener('click', this.validatorForm);
+  _removeListener() {
+    document.forms[0]
+        .removeEventListener('click', this._validatorForm);
+    document.forms[0]
+        .removeEventListener('input', this._validatorForm);
+    document.forms[0].querySelector('[type=submit]')
+        .removeEventListener('click', this._handleRequest);
+    document
+        .removeEventListener('keyup', this._handleEscClose);
+    this._popupContainer.querySelector('.popup__close')
+        .removeEventListener('click', function() {
+            popup.close();
+        });
   }
 }

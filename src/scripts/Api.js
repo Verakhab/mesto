@@ -3,6 +3,46 @@ export class Api {
       this.url = url;
   }
 
+  getAppInfo() {
+      return Promise.all([this.getInitialInfo(), this.getInitialCards()]);
+  }
+
+  signup(json) {
+      this.json = json;
+      return fetch(this.url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: this.json,
+        })
+        .then((res) => {
+            this.responseCheck(res);
+            return res.json();
+        })
+        .catch((err) => {
+                console.log(err);
+        });
+  }
+
+  logIn(json) {
+    this.json = json;
+    return fetch(this.url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: this.json,
+      })
+      .then((res) => {
+          this.responseCheck(res);
+          return res.json();
+      })
+      .catch((err) => {
+              console.log(err);
+      });
+}
+
   getInitialInfo() {
       return fetch(this.url, {
               headers: {
@@ -18,11 +58,20 @@ export class Api {
           });
   }
 
+  getInitialAllInfo() {
+    return fetch(this.url + 'users', {
+        })
+        .then((res) => {
+            this.responseCheck(res);
+            return res.json();
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
   getInitialCards() {
       return fetch(this.url, {
-              headers: {
-                authorization: `Bearer ${localStorage.getItem('token')}`,
-              },
           })
           .then((resj) => {
               this.responseCheck(resj);
@@ -33,10 +82,9 @@ export class Api {
           });
   }
 
-  postInfo(json) {
+  upUser(json) {
       this.json = json;
       return fetch(this.url, {
-
               method: 'PATCH',
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -56,10 +104,8 @@ export class Api {
   postCard(json) {
       this.json = json;
       return fetch(this.url, {
-
               method: 'POST',
               headers: {
-                authorization: `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json',
               },
               body: this.json,
@@ -73,9 +119,8 @@ export class Api {
           });
   }
 
-  reCard() {
+  removeCard() {
       return fetch(this.url, {
-
               method: 'DELETE',
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -93,13 +138,12 @@ export class Api {
 
   likeCard() {
       return fetch(this.url, {
-
               method: 'PUT',
-              body: this.json,
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json',
               },
+              body: this.json,
           })
           .then((res) => {
               this.responseCheck(res);
@@ -112,7 +156,6 @@ export class Api {
 
   deleteLikeCard() {
       return fetch(this.url, {
-
               method: 'DELETE',
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -127,10 +170,9 @@ export class Api {
           });
   }
 
-  addAvatar(json) {
+  upAvatar(json) {
       this.json = json;
-      return fetch(this.url, {
-
+      return fetch(this.url + 'users/me/avatar', {
               method: 'PATCH',
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,

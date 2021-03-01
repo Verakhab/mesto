@@ -13,12 +13,14 @@
       <img src="./images/logo.svg" alt="mesto logo" class="logo">
       <div class="header__button-container">
         <button class="button header__button header__button_signin">Sign In</button>
-        <button class="button header__button">Sign Up</button>
+        <button class="button header__button header__button_signup">Sign Up</button>
       </div>
     </header>
     <div class="profile root__section">
       <div class="user-info">
-        <div class="user-info__photo"></div>
+        <div class="user-info__photo">
+          <div class="user-info__edit-photo">Edit photo</div>
+        </div>
         <div class="user-info__data">
           <h1 class="user-info__name">Jaques Causteau</h1>
           <p class="user-info__job">Sacxfvor, Researcher</p>
@@ -29,135 +31,163 @@
     </div>
     <div class="places-list root__section">
     </div>
-      <div class="popup popup_new">
-        <div class="popup__content">
-          <img src="./images/close.svg" alt="button close" class="popup__close">
-          <h3 class="popup__title">Новое место</h3>
-          <form class="popup__form" novalidate name="new">
-            <input
-              type="text"
-              required
-              minlength="2"
-              maxlength="30"
-              name="name"
-              class="popup__input popup__input_type_name"
-              placeholder="Название"
-            >
-            <span class="popup__new-error"></span>
-            <input
-              type="url"
-              required
-              name="link"
-              class="popup__input popup__input_type_link-url"
-              placeholder="Ссылка на картинку"
-            >
-            <span class="popup__new-error"></span>
-            <button type="submit" class="button popup__button" disabled = 'true'>+</button>
-          </form>
-        </div>
-      </div>
-    <div class="popup popup_edit">
-      <div class="popup__content popup__content_edit">
-        <img src="./images/close.svg" alt="button close" class="popup__close popup__close_edit">
-        <h3 class="popup__title popup__title_edit">Редактировать профиль</h3>
-        <form class="popup__form popup__form_edit" novalidate name="edit">
-          <input
-            type="text"
-            required
-            minlength="2"
-            maxlength="30"
-            name="nameuser"
-            class="popup__input popup__input_type_name popup__input-edit_nameuser"
-            placeholder="Имя"
-          >
-          <span class="popup__edit-error"></span>
-          <input
-            type="text"
-            required
-            minlength="2"
-            maxlength="30"
-            name="aboutuser"
-            class="popup__input popup__input_type_link-url popup__input-edit_aboutuser"
-            placeholder="О себе"
-          >
-          <span class="popup__edit-error"></span>
-          <button type="submit" class="button popup__button popup__button_edit" disabled = 'true'>Сохранить</button>
-        </form>
-      </div>
-    </div>
-    <div class="popup popup_ava">
-      <div class="popup__content popup__content_ava">
-        <img src="./images/close.svg" alt="button close" class="popup__close popup__close_ava">
-        <h3 class="popup__title popup__title_ava">Обновить аватар</h3>
-        <form class="popup__form popup__form_ava" novalidate name="ava">
-          <input
-            type="url"
-            required
-            name="link"
-            class="popup__input popup__input_type_link-ava"
-            placeholder="Ссылка на аватар"
-          >
-          <span class="popup__ava-error"></span>
-          <button type="submit" class="button popup__button popup__button_ava" disabled = 'true'>Сохранить</button>
-        </form>
-      </div>
-    </div>
-    <div class="popup popup_edit">
-      <div class="popup__content popup__content_edit">
-        <img src="./images/close.svg" alt="button close" class="popup__close popup__close_edit">
-        <h3 class="popup__title popup__title_edit">Редактировать профиль</h3>
-        <form class="popup__form popup__form_edit" novalidate name="edit">
-          <input
-            type="text"
-            required
-            minlength="2"
-            maxlength="30"
-            name="nameuser"
-            class="popup__input popup__input_type_name popup__input-edit_nameuser"
-            placeholder="Имя"
-          >
-          <span class="popup__edit-error"></span>
-          <input
-            type="text"
-            required
-            minlength="2"
-            maxlength="30"
-            name="aboutuser"
-            class="popup__input popup__input_type_link-url popup__input-edit_aboutuser"
-            placeholder="О себе"
-          >
-          <span class="popup__edit-error"></span>
-          <button type="submit" class="button popup__button popup__button_edit" disabled = 'true'>Сохранить</button>
-        </form>
-      </div>
-    </div>
-    <div class="popup popup_edit">
-      <div class="popup__content popup__content_edit">
-        <img src="./images/close.svg" alt="button close" class="popup__close popup__close_edit">
-        <h3 class="popup__title popup__title_edit">Редактировать профиль</h3>
-        <form class="popup__form popup__form_edit" novalidate name="edit">
-          <input
-            type="text"
-            required
-            minlength="2"
-            maxlength="30"
-            name="nameuser"
-            class="popup__input popup__input_type_name popup__input-edit_nameuser"
-            placeholder="Имя"
-          >
-          <span class="popup__edit-error"></span>
-          <input
-            type="text"
-            required
-            minlength="2"
-            maxlength="30"
-            name="aboutuser"
-            class="popup__input popup__input_type_link-url popup__input-edit_aboutuser"
-            placeholder="О себе"
-          >
-          <span class="popup__edit-error"></span>
-          <button type="submit" class="button popup__button popup__button_edit" disabled = 'true'>Сохранить</button>
-        </form>
+    <div class="popup">
+      <div class="popup__content">
+        <img src="./images/close.svg" alt="button close" class="popup__close">
+        <template class="template-signup">
+          <div class="tem">
+            <h3 class="popup__title">Зарегестрироваться</h3>
+            <form class="popup__form" novalidate name="signup">
+              <input
+                type="text"
+                required
+                minlength="2"
+                maxlength="30"
+                name="name"
+                class="popup__input popup__input_type_name"
+                placeholder="Имя"
+              >
+              <span class="popup__new-error"></span>
+              <input
+                type="text"
+                required
+                minlength="2"
+                maxlength="30"
+                name="about"
+                class="popup__input popup__input_type_link-url  popup__input-edit_aboutuser"
+                placeholder="О себе"
+              >
+              <span class="popup__new-error"></span>
+              <input
+                type="url"
+                required
+                minlength="2"
+                maxlength="30"
+                name="link"
+                class="popup__input popup__input_type_name"
+                placeholder="Ваше фото"
+              >
+              <span class="popup__new-error"></span>
+              <input
+                type="email"
+                required
+                name="email"
+                class="popup__input popup__input_type_link-url"
+                placeholder="Email"
+              >
+              <span class="popup__new-error"></span>
+              <input
+                type="password"
+                required
+                minlength="2"
+                maxlength="30"
+                name="password"
+                class="popup__input popup__input_type_link-url"
+                placeholder="Password"
+              >
+              <span class="popup__new-error"></span>
+              <button type="submit" class="button popup__button" disabled = 'true'>Зарегестрироваться</button>
+            </form>
+          </div>
+        </template>
+        <template class="template-login">
+          <div class="tem">
+            <h3 class="popup__title">Войти</h3>
+            <form class="popup__form" novalidate name="login">
+              <input
+                type="email"
+                required
+                minlength="2"
+                maxlength="30"
+                name="email"
+                class="popup__input popup__input_type_name"
+                placeholder="Email"
+              >
+              <span class="popup__new-error"></span>
+              <input
+                type="password"
+                required
+                minlength="2"
+                maxlength="30"
+                name="password"
+                class="popup__input popup__input_type_link-url"
+                placeholder="Password"
+              >
+              <span class="popup__new-error"></span>
+              <button type="submit" class="button popup__button" disabled = 'true'>Войти</button>
+            </form>
+          </div>
+        </template>
+        <template class="template-place">
+          <div class="tem">
+            <h3 class="popup__title">Новое место</h3>
+            <form class="popup__form" novalidate name="place">
+              <input
+                type="text"
+                required
+                minlength="2"
+                maxlength="30"
+                name="name"
+                class="popup__input popup__input_type_name"
+                placeholder="Название"
+              >
+              <span class="popup__new-error"></span>
+              <input
+                type="url"
+                required
+                name="link"
+                class="popup__input popup__input_type_link-url"
+                placeholder="Ссылка на фото"
+              >
+              <span class="popup__new-error"></span>
+              <button type="submit" class="button popup__button" disabled = 'true'>Добавить</button>
+            </form>
+          </div>
+        </template>
+        <template class="template-upuser">
+          <div class="tem">
+            <h3 class="popup__title">Изменить информацию о себе</h3>
+            <form class="popup__form" novalidate name="upuser">
+              <input
+                type="text"
+                required
+                minlength="2"
+                maxlength="30"
+                name="name"
+                class="popup__input popup__input_type_name"
+                placeholder="Имя"
+              >
+              <span class="popup__new-error"></span>
+              <input
+                type="text"
+                required
+                minlength="2"
+                maxlength="30"
+                name="about"
+                class="popup__input popup__input_type_link-url"
+                placeholder="О себе"
+              >
+              <span class="popup__new-error"></span>
+              <button type="submit" class="button popup__button" disabled = 'true'>Сохранить</button>
+            </form>
+          </div>
+        </template>
+        <template class="template-upavatar">
+          <div class="tem">
+            <h3 class="popup__title">Изменить аватар</h3>
+            <form class="popup__form" novalidate name="upavatar">
+              <input
+                type="url"
+                required
+                name="link"
+                class="popup__input popup__input_type_link-url"
+                placeholder="Ваше фото"
+              >
+              <span class="popup__new-error"></span>
+              <button type="submit" class="button popup__button" disabled = 'true'>Сохранить</button>
+            </form>
+          </div>
+        </template>
       </div>
     </div>
   </div>

@@ -33,3 +33,7 @@
 .popup__valid-length-link.popup_is-opened {
   display: flex;
 }
+
+.user-info__edit-photo.popup_is-opened {
+  display: flex;
+}

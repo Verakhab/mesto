@@ -1,4 +1,7 @@
 .user-info__photo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   width: 150px;
   height: 150px;
   min-width: 150px;

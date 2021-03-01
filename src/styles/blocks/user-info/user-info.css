@@ -4,6 +4,7 @@
 @import url(./__job/user-info__job.css);
 @import url(./__button/user-info__button.css);
 @import url(./__button/_edit-button/user-info__button_edit-button.css);
+@import url(./__edit-photo/user-info__edit-photo.css);
 
 .user-info {
   display: flex;

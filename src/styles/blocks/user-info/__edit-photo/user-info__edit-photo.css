@@ -1,0 +1,11 @@
+.user-info__edit-photo {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 11vh;
+    background-color: aliceblue;
+    border-bottom-left-radius: 23vw;
+    border-bottom-right-radius: 23vw;
+    opacity: 0.5;
+    color: rgb(31, 30, 30);
+}
