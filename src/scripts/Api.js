@@ -9,7 +9,7 @@ export class Api {
 
   signup(json) {
       this.json = json;
-      return fetch(this.url, {
+      return fetch(this.url + 'signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
