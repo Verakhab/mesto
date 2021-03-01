@@ -27,7 +27,7 @@ export class Api {
 
   logIn(json) {
     this.json = json;
-    return fetch(this.url, {
+    return fetch(this.url + 'signin', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

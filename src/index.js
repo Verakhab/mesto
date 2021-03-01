@@ -79,8 +79,12 @@ function requestApi(e) {
             }
             const jsonData = JSON.stringify(data);
             api.logIn(jsonData)
-                .then(res => console.log(res));
-                popup.close();
+                .then(res => {
+                  console.log(res);
+                  localStorage.setItem('token', res.token);
+                  console.log(localStorage.setItem('token'));
+                  popup.close();
+                });
         break;
         case document.forms.place:
             const namePlace = document.forms.place.name.value;
