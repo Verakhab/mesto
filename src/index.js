@@ -53,11 +53,11 @@ function requestApi(e) {
     e.preventDefault();
     switch (document.forms[0]) {
         case document.forms.signup:
-            const name = document.forms.signup.name.value;
-            const about = document.forms.signup.about.value;
-            const avatar = document.forms.signup.link.value;
-            const email = document.forms.signup.email.value;
-            const password = document.forms.signup.password.value;
+            let name = document.forms.signup.name.value;
+            let about = document.forms.signup.about.value;
+            let avatar = document.forms.signup.link.value;
+            let email = document.forms.signup.email.value;
+            let password = document.forms.signup.password.value;
             const user = {
                 name,
                 about,
@@ -71,11 +71,11 @@ function requestApi(e) {
                 popup.close();
         break;
         case document.forms.login:
-            const emal = document.forms.login.email.value;
-            const pass = document.forms.login.password.value;
+            email = document.forms.login.email.value;
+            password = document.forms.login.password.value;
             const data = {
-                emal,
-                pass
+                email,
+                password
             }
             const jsonData = JSON.stringify(data);
             api.logIn(jsonData)
@@ -87,10 +87,10 @@ function requestApi(e) {
                 });
         break;
         case document.forms.place:
-            const namePlace = document.forms.place.name.value;
+            name = document.forms.place.name.value;
             const link = document.forms.place.link.value;
             const place = {
-                namePlace,
+                name,
                 link
             }
             const jsonPlace = JSON.stringify(place);
@@ -99,11 +99,11 @@ function requestApi(e) {
                 popup.close();
         break;
         case document.forms.upuser:
-            const nameNew = document.forms.upuser.name.value;
-            const aboutNew = document.forms.upuser.about.value;
+            name = document.forms.upuser.name.value;
+            about = document.forms.upuser.about.value;
             const userNew = {
-                nameNew,
-                aboutNew
+                name,
+                about
             }
             const jsonUserNew = JSON.stringify(userNew);
             api.upUser(jsonUserNew)
@@ -111,9 +111,9 @@ function requestApi(e) {
                 popup.close();
         break;
         case document.forms.upavatar:
-            const avatarNew = document.forms.upavatar.link.value;
+            avatar = document.forms.upavatar.link.value;
             const avaNew = {
-              avatarNew
+              avatar
             }
             const jsonAvatarNew = JSON.stringify(avaNew);
             console.log(jsonAvatarNew);
