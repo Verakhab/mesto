@@ -1,7 +1,7 @@
 import '../../styles/style.css';
 
 const serverUrl = NODE_ENV === 'development' ?
-    'https://api.mest.ml/' : 'https://api.mest.ml/';
+    'https://api.mesto.gq/' : 'https://api.mesto.gq/';
 const root = document.querySelector('.root');
 const buttonSignUp = root.querySelector('.header__button_signup');
 const profile = root.querySelector('.profile');

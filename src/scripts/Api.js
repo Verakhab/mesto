@@ -10,8 +10,6 @@ export class Api {
   signup(formData) {
       return fetch(this.url + 'signup', {
             method: 'POST',
-            headers: {
-            },
             body: formData,
         })
         .then((res) => {
