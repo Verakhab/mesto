@@ -29,8 +29,22 @@
         </div>
       </div>
     </div>
-    <div class="places-list root__section">
-    </div>
+    <section class="places-list root__section">
+      <template class="template-card">
+        <div class="place-card">
+          <div class="place-card__image">
+            <button class="place-card__delete-icon"></button>
+          </div>
+          <div class="place-card__description">
+            <h3 class="place-card__name"></h3>
+            <div class="place-card__case">
+              <button class="place-card__like-icon"></button>
+              <div class="place-card__counter"></div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </section>
     <div class="popup">
       <div class="popup__content">
         <img src="./images/close.svg" alt="button close" class="popup__close">
@@ -59,10 +73,9 @@
               >
               <span class="popup__new-error"></span>
               <input
-                type="url"
+                type="file"
+                accept="image/*"
                 required
-                minlength="2"
-                maxlength="30"
                 name="link"
                 class="popup__input popup__input_type_name"
                 placeholder="Ваше фото"
@@ -86,7 +99,7 @@
                 placeholder="Password"
               >
               <span class="popup__new-error"></span>
-              <button type="submit" class="button popup__button" disabled = 'true'>Зарегестрироваться</button>
+              <button type="submit" class="button popup__button" disabled ="true">Зарегестрироваться</button>
             </form>
           </div>
         </template>
@@ -114,7 +127,7 @@
                 placeholder="Password"
               >
               <span class="popup__new-error"></span>
-              <button type="submit" class="button popup__button" disabled = 'true'>Войти</button>
+              <button type="submit" class="button popup__button" disabled ="true">Войти</button>
             </form>
           </div>
         </template>
@@ -133,14 +146,15 @@
               >
               <span class="popup__new-error"></span>
               <input
-                type="url"
+                type="file"
+                accept="image/*"
                 required
                 name="link"
                 class="popup__input popup__input_type_link-url"
-                placeholder="Ссылка на фото"
+                placeholder="Фото места"
               >
               <span class="popup__new-error"></span>
-              <button type="submit" class="button popup__button" disabled = 'true'>Добавить</button>
+              <button type="submit" class="button popup__button" disabled ="true">Добавить</button>
             </form>
           </div>
         </template>
@@ -168,7 +182,7 @@
                 placeholder="О себе"
               >
               <span class="popup__new-error"></span>
-              <button type="submit" class="button popup__button" disabled = 'true'>Сохранить</button>
+              <button type="submit" class="button popup__button" disabled ="true">Сохранить</button>
             </form>
           </div>
         </template>
@@ -177,14 +191,15 @@
             <h3 class="popup__title">Изменить аватар</h3>
             <form class="popup__form" novalidate name="upavatar">
               <input
-                type="url"
+                type="file"
+                accept="image/*"
                 required
                 name="link"
                 class="popup__input popup__input_type_link-url"
                 placeholder="Ваше фото"
               >
               <span class="popup__new-error"></span>
-              <button type="submit" class="button popup__button" disabled = 'true'>Сохранить</button>
+              <button type="submit" class="button popup__button" disabled ="true">Сохранить</button>
             </form>
           </div>
         </template>

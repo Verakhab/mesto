@@ -1,5 +1,6 @@
 import {
     errorCollection,
+    buttonPopupClose,
 } from './constants/index';
 import {
     addClassOpen,
@@ -10,6 +11,7 @@ export class Popup {
   constructor(popupContainer, callbackRequest) {
     this._callbackRequest = callbackRequest;
     this._popupContainer = popupContainer;
+    this.close = this.close.bind(this);
     this._validatorForm = this._validatorForm.bind(this);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleRequest = this._handleRequest.bind(this);
@@ -34,7 +36,8 @@ export class Popup {
   }
 
   _handleRequest(e) {
-    return this._callbackRequest(e);
+      e.preventDefault();
+    return this._callbackRequest();
   }
 
   _validatorForm(e) {
@@ -97,15 +100,14 @@ export class Popup {
   }
 
   _validButton() {
-    const formButton = document.forms[0].querySelector('[type=submit]');
     if (document.forms[0].checkValidity()) {
-        formButton.
-        setAttribute('style', 'background-color: black; color: white;');
-        formButton.disabled = !document.forms[0].checkValidity();
+        document.forms[0].querySelector('.popup__button')
+            .setAttribute('style', 'background-color: black; color: white;');
+        document.forms[0].querySelector('.popup__button').disabled = !document.forms[0].checkValidity();
     } else {
-        formButton.
-        removeAttribute('style', 'background-color: black; color: white;');
-        formButton.disabled = !document.forms[0].checkValidity();
+        document.forms[0].querySelector('.popup__button')
+            .removeAttribute('style', 'background-color: black; color: white;');
+        document.forms[0].querySelector('.popup__button').disabled = !document.forms[0].checkValidity();
     }
 }
 
@@ -114,8 +116,10 @@ export class Popup {
         .addEventListener('click', this._validatorForm);
     document.forms[0]
         .addEventListener('input', this._validatorForm);
-    document.forms[0].querySelector('[type=submit]')
+    document.forms[0].querySelector('.popup__button')
         .addEventListener('click', this._handleRequest);
+    buttonPopupClose
+        .addEventListener('click', this.close);
     document
         .addEventListener('keyup', this._handleEscClose);
     
@@ -126,13 +130,11 @@ export class Popup {
         .removeEventListener('click', this._validatorForm);
     document.forms[0]
         .removeEventListener('input', this._validatorForm);
-    document.forms[0].querySelector('[type=submit]')
+    document.forms[0].querySelector('.popup__button')
         .removeEventListener('click', this._handleRequest);
+    buttonPopupClose
+        .addEventListener('click', this.close);
     document
         .removeEventListener('keyup', this._handleEscClose);
-    this._popupContainer.querySelector('.popup__close')
-        .removeEventListener('click', function() {
-            popup.close();
-        });
   }
 }

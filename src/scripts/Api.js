@@ -7,14 +7,12 @@ export class Api {
       return Promise.all([this.getInitialInfo(), this.getInitialCards()]);
   }
 
-  signup(json) {
-      this.json = json;
+  signup(formData) {
       return fetch(this.url + 'signup', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
             },
-            body: this.json,
+            body: formData,
         })
         .then((res) => {
             this.responseCheck(res);
@@ -25,14 +23,10 @@ export class Api {
         });
   }
 
-  logIn(json) {
-    this.json = json;
+  logIn(formData) {
     return fetch(this.url + 'signin', {
           method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: this.json,
+          body: formData,
       })
       .then((res) => {
           this.responseCheck(res);
@@ -44,7 +38,7 @@ export class Api {
 }
 
   getInitialInfo() {
-      return fetch(this.url, {
+      return fetch(this.url + 'user', {
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,
               },
@@ -60,6 +54,9 @@ export class Api {
 
   getInitialAllInfo() {
     return fetch(this.url + 'users', {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
         })
         .then((res) => {
             this.responseCheck(res);
@@ -73,24 +70,22 @@ export class Api {
   getInitialCards() {
       return fetch(this.url, {
           })
-          .then((resj) => {
-              this.responseCheck(resj);
-              return resj.json();
+          .then((res) => {
+              this.responseCheck(res);
+              return res.json();
           })
           .catch((err) => {
               console.log(err);
           });
   }
 
-  upUser(json) {
-      this.json = json;
-      return fetch(this.url, {
+  upUser(formData) {
+      return fetch(this.url + 'users/me', {
               method: 'PATCH',
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json',
               },
-              body: this.json,
+              body: formData,
           })
           .then((res) => {
               this.responseCheck(res);
@@ -101,14 +96,13 @@ export class Api {
           });
   }
 
-  postCard(json) {
-      this.json = json;
+  postCard(formData) {
       return fetch(this.url, {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
               },
-              body: this.json,
+              body: formData,
           })
           .then((res) => {
               this.responseCheck(res);
@@ -170,14 +164,13 @@ export class Api {
           });
   }
 
-  upAvatar(json) {
-      this.json = json;
+  upAvatar(formData) {
       return fetch(this.url + 'users/me/avatar', {
               method: 'PATCH',
               headers: {
                 authorization: `Bearer ${localStorage.getItem('token')}`,
               },
-              body: this.json,
+              body: formData,
           })
           .then((res) => {
               this.responseCheck(res);
