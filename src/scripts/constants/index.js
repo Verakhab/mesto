@@ -10,7 +10,7 @@ const buttonPopupClose = root.querySelector('.popup__close');
 const userInfoName = root.querySelector('.user-info__name');
 const userInfoJob = root.querySelector('.user-info__job');
 const userInfoFoto = root.querySelector('.user-info__photo');
-const placesList = root.querySelector('.places-list');
+const placesContainer = root.querySelector('.places-list');
 const popupElement = root.querySelector('.popup');
 const editPhoto = root.querySelector('.user-info__edit-photo');
 const formFragment = {
@@ -29,15 +29,11 @@ const buttonPopupOpen = {
     signup: document.querySelector('.header__button_signup'),
 };
 const cardFragment = root.querySelector('.template-card');
-const cardImage =  root.querySelector('.place-card__image');
-const cardName =  root.querySelector('.place-card__name');
-const cardLikeCount =  root.querySelector('.place-card__counter');
 const errorCollection = {
     errorAlways: 'Это обязательное поле',
     errorLength: 'Должно быть от 2 до 30 символов',
     errorLink: 'Здесь должна быть ссылка',
     errorEmail: 'Здесь должен быть email',
-    load: 'Загрузка...',
     save: 'Сохранить',
     plus: '+',
     remove: 'Вы действительно хотите удалить эту карточку?',
@@ -53,7 +49,7 @@ export {
     userInfoName,
     userInfoJob,
     userInfoFoto,
-    placesList,
+    placesContainer,
     popupElement,
     editPhoto,
     formFragment,

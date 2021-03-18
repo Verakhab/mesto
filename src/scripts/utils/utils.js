@@ -1,40 +1,40 @@
 import {
-    profile,
-    userInfoName,
-    userInfoJob,
-    userInfoFoto,
-    editPhoto,
-    buttonSignUp,
-    buttonSignIn,
-    buttonPopupOpen,
-    formFragment,
+  profile,
+  userInfoName,
+  userInfoJob,
+  userInfoFoto,
+  editPhoto,
+  buttonSignUp,
+  buttonSignIn,
+  buttonPopupOpen,
+  formFragment,
 } from '../constants/index';
 
 import {
-    popup
+  popup
 } from '../../index';
 
 function addClassOpen(element) {
-    element.classList.add('popup_is-opened');
+  element.classList.add('popup_is-opened');
 }
 
 function removeClassOpen(element) {
-    element.classList.remove('popup_is-opened');
+  element.classList.remove('popup_is-opened');
 }
 
 function exit() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    profile.setAttribute('style', 'display: none');
-    buttonSignUp.textContent = 'SignUp';
-    buttonSignIn.setAttribute('style', 'display: block');
-    buttonPopupOpen.signup
-        .addEventListener('click', entrance);
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  profile.setAttribute('style', 'display: none');
+  buttonSignUp.textContent = 'SignUp';
+  buttonSignIn.setAttribute('style', 'display: block');
+  buttonPopupOpen.signup
+    .addEventListener('click', entrance);
 }
 
 function entrance() {
-    const formSignup = formFragment.signup.content.cloneNode(true).querySelector('.tem');
-    popup.open(formSignup);
+  const formSignup = formFragment.signup.content.cloneNode(true).querySelector('.tem');
+  popup.open(formSignup);
 }
 
 function chekToken() {
@@ -58,9 +58,9 @@ function chekToken() {
 }
 
 export {
-    addClassOpen,
-    removeClassOpen,
-    exit,
-    entrance,
-    chekToken
+  addClassOpen,
+  removeClassOpen,
+  exit,
+  entrance,
+  chekToken
 }
