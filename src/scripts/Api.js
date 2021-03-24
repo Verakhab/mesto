@@ -139,31 +139,14 @@ export class Api {
     });
   }
 
-  likeCard() {
-    return fetch(this.url, {
-        method: 'PUT',
+  changelikeCard(cardId, like) {
+    return fetch(this.url + `cards/${cardId}/likes`, {
+        method: like ? 'PUT' : 'DELETE',
         headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
         },
         body: this.json,
-    })
-    .then(res => {
-        // this.responseCheck(res);
-        return res.json();
-    })
-    .catch(err => {
-        console.log(err);
-        return err;
-    });
-  }
-
-  deleteLikeCard() {
-    return fetch(this.url, {
-        method: 'DELETE',
-        headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
     })
     .then(res => {
         // this.responseCheck(res);

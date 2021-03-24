@@ -2,7 +2,7 @@ export class CardList {
   constructor(container) {
       this.container = container;
   }
-  render(objCard) {
-    this.container.appendChild(objCard)
+  render(dataCard, createCard) {
+    this.container.append(createCard(dataCard));
   }
 }

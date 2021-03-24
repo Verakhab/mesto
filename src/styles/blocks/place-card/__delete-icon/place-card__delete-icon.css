@@ -9,4 +9,10 @@
   right: 15px;
   cursor: pointer;
   display: none;
+  opacity: 0.5;
+  outline: none;
+}
+
+.place-card__delete-icon:hover {
+  opacity: 1;
 }

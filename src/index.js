@@ -31,45 +31,56 @@ import {
 } from './scripts/utils/utils';
 
 const api = new Api(serverUrl);
-const popup = new Popup(popupElement, requestApi);
 
 chekToken();
 
 api.getAppInfo()
   .then(([userInfo, cardsInfo]) => {
-    console.log(cardsInfo);
-    const cardInstance = new Card(cardFragment, callBackCard());
-    const placesList = new CardList(placesContainer);
-    cardsInfo.forEach(cardInfo => {
-      const card = cardInstance.create(userInfo, cardInfo);
-      placesList.render(card);
-    });
-    function callBackCard() {
+    console.log([userInfo, cardsInfo]);
+    const getCardData = cardData => {
       return {
-        callBackRemove: (e) => {
-          console.log(e);
-          const c = e.path[2]
-          console.log(c);
-          // api.removeCard(e.target.cardId)
-          //   .then(res => {
-
-          //   })
-          //   .catch(err => console.log(err));
+        data: { ...cardData, currentUserId: userInfo._id },
+        removeCard: card => {
+          api.removeCard(card.id)
+            .then(res => {
+              console.log(res);
+              card.remove();
+            })
+            .catch(err => console.log(err));
         },
-        callBackLike: (e) => {
-          console.log(e);
-          // api.removeCard(e.target.cardId)
-          //   .then(res => {
-
-          //   })
-          //   .catch(err => console.log(err));
+        likeCard: card => {
+          api.changelikeCard(card.id, !card.isLiked)
+            .then(res => {
+              card.setView({ ...res, currentUserId: userInfo._id });
+            })
+            .catch(err => console.log(err));
         }
       }
     }
+
+    const cardListInstance = new CardList(placesContainer);
+    
+    cardListInstance.render(cardsInfo.map(card => getCardData(card)),(arrCard) => {
+      console.log(arrCard)
+      return [].concat(arrCard).reduce((fragment, objCard) => {
+        const card = new Card(objCard,(data) => {
+          const newCard = cardFragment.cloneNode(true);
+          newCard.querySelector('.place-card__image')
+          .setAttribute(
+            'style',
+            `background-image: url(${'data:' + data.imageType + ';base64,' + data.imageCard})`
+          );
+          newCard.querySelector('.place-card__name').textContent = data.name;
+          return newCard;
+        })
+        fragment.append(card.node);
+        return fragment;
+      }, document.createDocumentFragment());
+    });
   })
   .catch(err => console.log(err));
 
-function requestApi() {
+const requestApi = () => {
   const popupLoader = root.querySelector('.loader');
   popupLoader.setAttribute('style', 'display: block');
   let userStorage = localStorage.getItem('user');
@@ -170,32 +181,32 @@ function requestApi() {
         });
   }
 }
-
+export const popup = new Popup(popupElement, requestApi);
 buttonPopupOpen.signin
   .addEventListener('click', function() {
-      const formLogin = formFragment.signin.content.cloneNode(true).querySelector('.tem');
-      popup.open(formLogin);
+    const formLogin = formFragment.signin.content.cloneNode(true).querySelector('.tem');
+    popup.open(formLogin);
   });
 buttonPopupOpen.place
   .addEventListener('click', function() {
-      const formPlace = formFragment.place.content.cloneNode(true).querySelector('.tem');
-      popup.open(formPlace);
+    const formPlace = formFragment.place.content.cloneNode(true).querySelector('.tem');
+    popup.open(formPlace);
   });
 buttonPopupOpen.upuser
   .addEventListener('click', function() {
-      const formUpuser = formFragment.upuser.content.cloneNode(true).querySelector('.tem');
-      popup.open(formUpuser);
+    const formUpuser = formFragment.upuser.content.cloneNode(true).querySelector('.tem');
+    popup.open(formUpuser);
   });
 buttonPopupOpen.upavatar
   .addEventListener('click', function() {
-      const formUpavatar = formFragment.upavatar.content.cloneNode(true).querySelector('.tem');
-      popup.open(formUpavatar);
+    const formUpavatar = formFragment.upavatar.content.cloneNode(true).querySelector('.tem');
+    popup.open(formUpavatar);
   });
 buttonPopupOpen.avatar
   .addEventListener('mouseover', () => {
-      addClassOpen(editPhoto);
+    addClassOpen(editPhoto);
   });
 buttonPopupOpen.avatar
   .addEventListener('mouseout', () => {
-      removeClassOpen(editPhoto);
+    removeClassOpen(editPhoto);
   });

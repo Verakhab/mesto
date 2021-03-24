@@ -28,7 +28,7 @@ const buttonPopupOpen = {
     signin: document.querySelector('.header__button_signin'),
     signup: document.querySelector('.header__button_signup'),
 };
-const cardFragment = root.querySelector('.template-card');
+const cardFragment = root.querySelector('.template-card').content.querySelector('.place-card');
 const errorCollection = {
     errorAlways: 'Это обязательное поле',
     errorLength: 'Должно быть от 2 до 30 символов',
