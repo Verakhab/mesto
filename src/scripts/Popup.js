@@ -1,36 +1,88 @@
 import {
-    errorCollection,
-    buttonPopupClose,
-} from './constants/index';
-import {
     addClassOpen,
-    removeClassOpen,
+    removeClassOpen
 } from './utils/utils';
 
 export class Popup {
-  constructor(popupContainer, callbackRequest) {
+  constructor(popupData, callbackRequest) {
+    this._popupData = popupData;
     this._callbackRequest = callbackRequest;
-    this._popupContainer = popupContainer;
+    this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this._elementPopup = this._elementPopup.bind(this);
     this._validatorForm = this._validatorForm.bind(this);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleRequest = this._handleRequest.bind(this);
-  }
-
-  open(form) {
-    this._popupContainer.lastElementChild.appendChild(form);
-    addClassOpen(this._popupContainer);
     this._addListener();
   }
 
+  open(content) {
+    this._popupData.popupElement.append(content);
+    addClassOpen(this._popupData.popupElement);
+    document.forms[0]
+      .addEventListener('click', this._validatorForm);
+    document.forms[0]
+      .addEventListener('input', this._validatorForm);
+    document.forms[0].querySelector('.popup__button')
+      .addEventListener('click', this._handleRequest);
+    document.querySelector('.popup__close')
+      .addEventListener('click', this.close);
+    document
+      .addEventListener('keyup', this._handleEscClose);
+  }
+  
   close() {
-    removeClassOpen(this._popupContainer);
-    this._removeListener();
-    this._popupContainer.querySelector('.tem').remove();
+    removeClassOpen(this._popupData.popupElement);
+    document.forms[0]
+      .removeEventListener('click', this._validatorForm);
+    document.forms[0]
+      .removeEventListener('input', this._validatorForm);
+    document.forms[0].querySelector('.popup__button')
+      .removeEventListener('click', this._handleRequest);
+    document.querySelector('.popup__close')
+      .addEventListener('click', this.close);
+    document
+      .removeEventListener('keyup', this._handleEscClose);
+    this._popupData.popupElement.querySelector('.popup__content').remove();
+  }
+
+  _elementPopup(e) {
+    switch (e.target) {
+      case this._popupData.buttonPopupOpen.signup:
+        const formSignup = this._popupData.formFragment.signup.content.cloneNode(true)
+          .querySelector('.popup__content');
+        this.open(formSignup);
+      break;
+      case this._popupData.buttonPopupOpen.signin:
+        const formLogin = this._popupData.formFragment.signin.content.cloneNode(true)
+          .querySelector('.popup__content');
+        this.open(formLogin);
+      break;
+      case this._popupData.buttonPopupOpen.place:
+        const formPlace = this._popupData.formFragment.place.content.cloneNode(true)
+          .querySelector('.popup__content');
+        this.open(formPlace);
+      break;
+      case this._popupData.buttonPopupOpen.upuser:
+        const formUpuser = this._popupData.formFragment.upuser.content.cloneNode(true)
+          .querySelector('.popup__content');
+        this.open(formUpuser);
+      break;
+      case this._popupData.buttonPopupOpen.avatar:
+        if (e.type === 'mouseenter') {
+          addClassOpen(this._popupData.editPhoto);
+        } else removeClassOpen(this._popupData.editPhoto);
+      break;
+      case this._popupData.buttonPopupOpen.upavatar:
+        const formUpavatar = this._popupData.formFragment.upavatar.content.cloneNode(true)
+        .querySelector('.popup__content');
+        this.open(formUpavatar);
+      break;
+    }
   }
 
   _handleEscClose(e) {
-    if (e.keyCode === errorCollection.ESCAPE_CODE) {
+    if (e.keyCode === this._popupData.errorCollection.ESCAPE_CODE) {
         this.close();
     }
   }
@@ -58,10 +110,10 @@ export class Popup {
     let error = '';
     if (!textInput.checkValidity()) {
         if (textInput.validity.tooShort || textInput.validity.tooLong) {
-            error = errorCollection.errorLength;
+            error = this._popupData.errorCollection.errorLength;
         }
         if (textInput.validity.valueMissing) {
-            error = errorCollection.errorAlways;
+            error = this._popupData.errorCollection.errorAlways;
         }
     }
     if (textInput.nextElementSibling !== null) {
@@ -73,10 +125,10 @@ export class Popup {
     let error = '';
     if (!linkInput.checkValidity()) {
         if (linkInput.validity.valueMissing) {
-            error = errorCollection.errorAlways;
+            error = this._popupData.errorCollection.errorAlways;
         }
         if (linkInput.validity.typeMismatch) {
-            error = errorCollection.errorLink;
+            error = this._popupData.errorCollection.errorLink;
         }
     }
     if (linkInput.nextElementSibling !== null) {
@@ -88,10 +140,10 @@ export class Popup {
     let error = '';
     if (!emailInput.checkValidity()) {
         if (emailInput.validity.valueMissing) {
-            error = errorCollection.errorAlways;
+            error = this._popupData.errorCollection.errorAlways;
         }
         if (emailInput.validity.typeMismatch) {
-            error = errorCollection.errorEmail;
+            error = this._popupData.errorCollection.errorEmail;
         }
     }
     if (emailInput.nextElementSibling !== null) {
@@ -112,29 +164,19 @@ export class Popup {
 }
 
   _addListener() {
-    document.forms[0]
-        .addEventListener('click', this._validatorForm);
-    document.forms[0]
-        .addEventListener('input', this._validatorForm);
-    document.forms[0].querySelector('.popup__button')
-        .addEventListener('click', this._handleRequest);
-    buttonPopupClose
-        .addEventListener('click', this.close);
-    document
-        .addEventListener('keyup', this._handleEscClose);
-    
-  }
-
-  _removeListener() {
-    document.forms[0]
-        .removeEventListener('click', this._validatorForm);
-    document.forms[0]
-        .removeEventListener('input', this._validatorForm);
-    document.forms[0].querySelector('.popup__button')
-        .removeEventListener('click', this._handleRequest);
-    buttonPopupClose
-        .addEventListener('click', this.close);
-    document
-        .removeEventListener('keyup', this._handleEscClose);
+    this._popupData.buttonPopupOpen.signup
+      .addEventListener('click', this._elementPopup);
+    this._popupData.buttonPopupOpen.signin
+      .addEventListener('click', this._elementPopup);
+    this._popupData.buttonPopupOpen.place
+      .addEventListener('click', this._elementPopup);
+    this._popupData.buttonPopupOpen.upuser
+      .addEventListener('click', this._elementPopup);
+    this._popupData.buttonPopupOpen.upavatar
+      .addEventListener('click', this._elementPopup);
+    this._popupData.buttonPopupOpen.avatar
+      .addEventListener('mouseenter', this._elementPopup);
+    this._popupData.buttonPopupOpen.avatar
+      .addEventListener('mouseleave', this._elementPopup);
   }
 }

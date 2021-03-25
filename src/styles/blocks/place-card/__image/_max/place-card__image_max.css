@@ -1,16 +1,14 @@
 .place-card__image.place-card__image_max {
-  min-height: 80vh;
-  min-width: 80vw;
   position: fixed;
   cursor: default;
-  background-size: cover;
-  background-position: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  align-items: center;
+  justify-content: center;
+  display: none;
+  z-index: 1;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  content: none;
-  z-index: 1;
-}
-
-.place-card__image.place-card__image_max::after {
   content: none;
 }

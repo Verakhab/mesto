@@ -1,16 +1,12 @@
 import {
-  buttonSignUp,
+  root,
   serverUrl,
   userInfoName,
   userInfoJob,
   userInfoFoto,
   cardFragment,
-  popupElement,
   placesContainer,
-  editPhoto,
-  formFragment,
-  buttonPopupOpen,
-  root,
+  popupData
 } from './scripts/constants/index';
 import {
   Api
@@ -32,59 +28,62 @@ import {
 
 const api = new Api(serverUrl);
 
-chekToken();
 
-api.getAppInfo()
-  .then(([userInfo, cardsInfo]) => {
-    console.log([userInfo, cardsInfo]);
-    const getCardData = cardData => {
-      return {
-        data: { ...cardData, currentUserId: userInfo._id },
-        removeCard: card => {
-          api.removeCard(card.id)
-            .then(res => {
-              console.log(res);
-              card.remove();
-            })
-            .catch(err => console.log(err));
-        },
-        likeCard: card => {
-          api.changelikeCard(card.id, !card.isLiked)
-            .then(res => {
-              card.setView({ ...res, currentUserId: userInfo._id });
-            })
-            .catch(err => console.log(err));
+if (localStorage.getItem('token')) {
+  api.getAppInfo()
+    .then(([userInfo, cardsInfo]) => {
+      console.log([userInfo, cardsInfo]);
+      console.log(userInfo);
+      chekToken(userInfo);
+      const getCardData = cardData => {
+        return {
+          data: { ...cardData, currentUserId: userInfo._id },
+          removeCard: card => {
+            api.removeCard(card.id)
+              .then(res => {
+                console.log(res);
+                card.remove();
+              })
+              .catch(err => console.log(err));
+          },
+          likeCard: card => {
+            api.changelikeCard(card.id, !card.isLiked)
+              .then(res => {
+                card.setView({ ...res, currentUserId: userInfo._id });
+              })
+              .catch(err => console.log(err));
+          },
+          openImage: () => {
+            addClassOpen(root.querySelector('.dark-layer'));
+          }
         }
       }
-    }
 
-    const cardListInstance = new CardList(placesContainer);
+      const cardListInstance = new CardList(placesContainer);
+      
+      cardListInstance.render(cardsInfo.map(card => getCardData(card)),(arrCard) => {
+        return [].concat(arrCard).reduce((fragment, objCard) => {
+          const card = new Card(objCard,(data) => {
+            const newCard = cardFragment.cloneNode(true);
+            newCard.querySelector('.place-card__image')
+            .setAttribute(
+              'style',
+              `background-image: url(${'data:' + data.imageType + ';base64,' + data.imageCard})`
+            );
+            newCard.querySelector('.place-card__name').textContent = data.name;
+            return newCard;
+          })
+          fragment.append(card.node);
+          return fragment;
+        }, document.createDocumentFragment());
+      });
+    })
+    .catch(err => console.log(err));
+}
     
-    cardListInstance.render(cardsInfo.map(card => getCardData(card)),(arrCard) => {
-      console.log(arrCard)
-      return [].concat(arrCard).reduce((fragment, objCard) => {
-        const card = new Card(objCard,(data) => {
-          const newCard = cardFragment.cloneNode(true);
-          newCard.querySelector('.place-card__image')
-          .setAttribute(
-            'style',
-            `background-image: url(${'data:' + data.imageType + ';base64,' + data.imageCard})`
-          );
-          newCard.querySelector('.place-card__name').textContent = data.name;
-          return newCard;
-        })
-        fragment.append(card.node);
-        return fragment;
-      }, document.createDocumentFragment());
-    });
-  })
-  .catch(err => console.log(err));
-
 const requestApi = () => {
   const popupLoader = root.querySelector('.loader');
   popupLoader.setAttribute('style', 'display: block');
-  let userStorage = localStorage.getItem('user');
-  let userParse = JSON.parse(userStorage);
   let formData;
   switch (document.forms[0]) {
     case document.forms.signup:
@@ -109,9 +108,9 @@ const requestApi = () => {
           if (res.message) {
             return Promise.reject(res.message);
           }
-          localStorage.setItem('user', JSON.stringify(res));
+          console.log(res)
           localStorage.setItem('token', res.token);
-          chekToken();
+          chekToken(res);
           popup.close();
         })
         .catch(err => {
@@ -127,8 +126,18 @@ const requestApi = () => {
           if (res.message) {
             return Promise.reject(res.message);
           }
-          const cardd = cardInstance.create(userParse, res);
-          placesList.render(cardd);
+          cardListInstance.render(getCardData(res),(cardData) => {
+            const card = new Card(cardData,(data) => {
+              const newCard = cardFragment.cloneNode(true);
+              newCard.querySelector('.place-card__image')
+              .setAttribute(
+                'style',
+                `background-image: url(${'data:' + data.imageType + ';base64,' + data.imageCard})`
+              );
+              newCard.querySelector('.place-card__name').textContent = data.name;
+              placesContainer.append(newCard);
+            })
+          });
           popup.close();
         })
         .catch(err => {
@@ -146,11 +155,7 @@ const requestApi = () => {
           }
           userInfoName.textContent = res.name;
           userInfoJob.textContent = res.about;
-          buttonSignUp.textContent = res.name + ' [->';
-          userParse.name = res.name;
-          userParse.about = res.about;
-          localStorage.removeItem('user');
-          localStorage.setItem('user', JSON.stringify(userParse));
+          popupData.buttonPopupOpen.signup.textContent = res.name + ' [->';
           popup.close();
         })
         .catch(err => {
@@ -168,10 +173,6 @@ const requestApi = () => {
           }
           userInfoFoto
             .setAttribute('style', `background-image: url(${'data:' + res.type + ';base64,' + res.ava})`);
-          userParse.ava = res.ava;
-          userParse.type = res.type;
-          localStorage.removeItem('user');
-          localStorage.setItem('user', JSON.stringify(userParse));
           popup.close();
         })
         .catch(err => {
@@ -181,32 +182,4 @@ const requestApi = () => {
         });
   }
 }
-export const popup = new Popup(popupElement, requestApi);
-buttonPopupOpen.signin
-  .addEventListener('click', function() {
-    const formLogin = formFragment.signin.content.cloneNode(true).querySelector('.tem');
-    popup.open(formLogin);
-  });
-buttonPopupOpen.place
-  .addEventListener('click', function() {
-    const formPlace = formFragment.place.content.cloneNode(true).querySelector('.tem');
-    popup.open(formPlace);
-  });
-buttonPopupOpen.upuser
-  .addEventListener('click', function() {
-    const formUpuser = formFragment.upuser.content.cloneNode(true).querySelector('.tem');
-    popup.open(formUpuser);
-  });
-buttonPopupOpen.upavatar
-  .addEventListener('click', function() {
-    const formUpavatar = formFragment.upavatar.content.cloneNode(true).querySelector('.tem');
-    popup.open(formUpavatar);
-  });
-buttonPopupOpen.avatar
-  .addEventListener('mouseover', () => {
-    addClassOpen(editPhoto);
-  });
-buttonPopupOpen.avatar
-  .addEventListener('mouseout', () => {
-    removeClassOpen(editPhoto);
-  });
+export const popup = new Popup(popupData, requestApi);

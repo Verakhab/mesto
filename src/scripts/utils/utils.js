@@ -3,11 +3,7 @@ import {
   userInfoName,
   userInfoJob,
   userInfoFoto,
-  editPhoto,
-  buttonSignUp,
-  buttonSignIn,
-  buttonPopupOpen,
-  formFragment,
+  popupData
 } from '../constants/index';
 
 import {
@@ -24,35 +20,35 @@ function removeClassOpen(element) {
 
 function exit() {
   localStorage.removeItem('token');
-  localStorage.removeItem('user');
   profile.setAttribute('style', 'display: none');
-  buttonSignUp.textContent = 'SignUp';
-  buttonSignIn.setAttribute('style', 'display: block');
-  buttonPopupOpen.signup
+  popupData.buttonPopupOpen.signup.textContent = 'SignUp';
+  popupData.buttonPopupOpen.signin.setAttribute('style', 'display: block');
+  popupData.buttonPopupOpen.signup
     .addEventListener('click', entrance);
 }
 
 function entrance() {
-  const formSignup = formFragment.signup.content.cloneNode(true).querySelector('.tem');
+  const formSignup = formFragment.signup.content.cloneNode(true).querySelector('.popup__content');
   popup.open(formSignup);
 }
 
-function chekToken() {
+function chekToken(userInfo) {
   if (localStorage.getItem('token')) {
-  buttonPopupOpen.signup
-    .removeEventListener('click', entrance);
-  buttonPopupOpen.signup
-    .addEventListener('click', exit);
-  const userLocal = JSON.parse(localStorage.getItem('user'));
-  profile.setAttribute('style', 'display: flex');
-  userInfoFoto
-    .setAttribute('style', `background-image: url(${'data:' + userLocal.type + ';base64,'+ userLocal.ava})`);
-  userInfoName.textContent = userLocal.name;
-  userInfoJob.textContent = userLocal.about;
-  buttonSignUp.textContent = userLocal.name + ' [->';
-  buttonSignIn.setAttribute('style', 'display: none');
+    userInfoFoto
+      .setAttribute('style',
+      `background-image:
+      url(${'data:' + userInfo.avatarType + ';base64,'+ (userInfo.avatar || userInfo.ava)})`);
+    userInfoName.textContent = userInfo.name;
+    userInfoJob.textContent = userInfo.about;
+    popupData.buttonPopupOpen.signup.textContent = userInfo.name + ' [->';
+    popupData.buttonPopupOpen.signup
+      .removeEventListener('click', entrance);
+    popupData.buttonPopupOpen.signup
+      .addEventListener('click', exit);
+    profile.setAttribute('style', 'display: flex');
+    popupData.buttonPopupOpen.signin.setAttribute('style', 'display: none');
   } else {
-    buttonPopupOpen.signup
+    popupData.buttonPopupOpen.signup
       .addEventListener('click', entrance);
   }
 }
@@ -60,7 +56,5 @@ function chekToken() {
 export {
   addClassOpen,
   removeClassOpen,
-  exit,
-  entrance,
   chekToken
 }
