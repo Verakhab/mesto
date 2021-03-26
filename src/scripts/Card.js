@@ -19,7 +19,7 @@ export class Card {
     return this._elem;
   }
   get id() {
-    return this.data._id;
+    return (this.data._id || this.data.idCard);
   }
   get isLiked() {
     return Boolean(this.data.likes.find(item => item === this.data.currentUserId))
@@ -47,8 +47,8 @@ export class Card {
   _likeHandle() {
     return this.likeCard(this);
   }
-  _openHandle() {
-    return this.openImage();
+  _openHandle(e) {
+    return this.openImage(e);
   }
   _addListener() {
     this._buttonRemove

@@ -24,6 +24,7 @@ const popupData = {
         upavatar: document.querySelector('.user-info__edit-photo'),
         signin: document.querySelector('.header__button_signin'),
         signup: document.querySelector('.header__button_signup'),
+        exit: document.querySelector('.header__button_exit'),
     },
     errorCollection: {
         errorAlways: 'Это обязательное поле',

@@ -1,6 +1,7 @@
 import {
     addClassOpen,
-    removeClassOpen
+    removeClassOpen,
+    exit
 } from './utils/utils';
 
 export class Popup {
@@ -17,33 +18,40 @@ export class Popup {
   }
 
   open(content) {
+    const elemClass = content.className.split(" ")[0];
     this._popupData.popupElement.append(content);
     addClassOpen(this._popupData.popupElement);
-    document.forms[0]
-      .addEventListener('click', this._validatorForm);
-    document.forms[0]
-      .addEventListener('input', this._validatorForm);
-    document.forms[0].querySelector('.popup__button')
-      .addEventListener('click', this._handleRequest);
     document.querySelector('.popup__close')
       .addEventListener('click', this.close);
     document
       .addEventListener('keyup', this._handleEscClose);
+    if (elemClass === 'popup__content') {
+      document.forms[0]
+        .addEventListener('click', this._validatorForm);
+      document.forms[0]
+        .addEventListener('input', this._validatorForm);
+      document.forms[0].querySelector('.popup__button')
+        .addEventListener('click', this._handleRequest);
+    }
   }
   
   close() {
     removeClassOpen(this._popupData.popupElement);
-    document.forms[0]
-      .removeEventListener('click', this._validatorForm);
-    document.forms[0]
-      .removeEventListener('input', this._validatorForm);
-    document.forms[0].querySelector('.popup__button')
-      .removeEventListener('click', this._handleRequest);
-    document.querySelector('.popup__close')
-      .addEventListener('click', this.close);
-    document
-      .removeEventListener('keyup', this._handleEscClose);
-    this._popupData.popupElement.querySelector('.popup__content').remove();
+    if (!this._popupData.popupElement.querySelector('.popup__content')) {
+      document.querySelector('.popup__close')
+        .removeEventListener('click', this.close);
+      document
+        .removeEventListener('keyup', this._handleEscClose);
+      this._popupData.popupElement.lastElementChild.remove();
+    } else {
+      document.forms[0]
+        .removeEventListener('click', this._validatorForm);
+      document.forms[0]
+        .removeEventListener('input', this._validatorForm);
+      document.forms[0].querySelector('.popup__button')
+        .removeEventListener('click', this._handleRequest);
+      this._popupData.popupElement.querySelector('.popup__content').remove();
+    }
   }
 
   _elementPopup(e) {
@@ -58,6 +66,9 @@ export class Popup {
           .querySelector('.popup__content');
         this.open(formLogin);
       break;
+      case this._popupData.buttonPopupOpen.exit:
+        exit();
+      break;
       case this._popupData.buttonPopupOpen.place:
         const formPlace = this._popupData.formFragment.place.content.cloneNode(true)
           .querySelector('.popup__content');
@@ -68,15 +79,15 @@ export class Popup {
           .querySelector('.popup__content');
         this.open(formUpuser);
       break;
-      case this._popupData.buttonPopupOpen.avatar:
-        if (e.type === 'mouseenter') {
-          addClassOpen(this._popupData.editPhoto);
-        } else removeClassOpen(this._popupData.editPhoto);
-      break;
       case this._popupData.buttonPopupOpen.upavatar:
         const formUpavatar = this._popupData.formFragment.upavatar.content.cloneNode(true)
         .querySelector('.popup__content');
         this.open(formUpavatar);
+      break;
+      case this._popupData.buttonPopupOpen.avatar:
+        if (e.type === 'mouseenter') {
+          addClassOpen(this._popupData.editPhoto);
+        } else removeClassOpen(this._popupData.editPhoto);
       break;
     }
   }
@@ -167,6 +178,8 @@ export class Popup {
     this._popupData.buttonPopupOpen.signup
       .addEventListener('click', this._elementPopup);
     this._popupData.buttonPopupOpen.signin
+      .addEventListener('click', this._elementPopup);
+    this._popupData.buttonPopupOpen.exit
       .addEventListener('click', this._elementPopup);
     this._popupData.buttonPopupOpen.place
       .addEventListener('click', this._elementPopup);

@@ -1,4 +1,4 @@
-/* @import url(./_max/place-card__image_max.css); */
+@import url(./_max/place-card__image_max.css);
 
 .place-card__image {
   height: 282px;

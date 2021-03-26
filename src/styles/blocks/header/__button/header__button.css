@@ -1,4 +1,5 @@
 @import url('./_signin/header__button_signin.css');
+@import url('./_exit/header__button_exit.css');
 
 .button.header__button {
     font-size: 1vw;
