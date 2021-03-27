@@ -207,7 +207,6 @@ function requestApi() {
   }
 }
 
-
 if (!localStorage.getItem('token')) {
   const welcomePopup = welcomeFragment.cloneNode(true);
   popup.open(welcomePopup);
