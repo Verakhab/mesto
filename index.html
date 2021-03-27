@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mesto</title>
-  <link rel="stylesheet" href="style.f7a5d33485cc8486606f.css">
+  <link rel="stylesheet" href="style.da092dcfdc940f0fa36d.css">
 </head>
 <body>
   <div class="root">
     <header class="header root__section">
       <img src="./images/logo.svg" alt="mesto logo" class="logo">
       <div class="header__button-container">
-        <button class="button header__button header__button_signin">Sign In</button>
-        <button class="button header__button header__button_signup">Sign Up</button>
-        <button class="button header__button header__button_exit">Exit</button>
+        <button class="button header__button header__button_signin">Войти</button>
+        <button class="button header__button header__button_signup">Зарегестрироваться</button>
+        <button class="button header__button header__button_exit">Выйти</button>
       </div>
     </header>
     <div class="profile root__section">
@@ -255,6 +255,18 @@
             </button>
             <span class="popup__new-error"></span>
           </form>
+        </div>
+      </template>
+      <template class="template-welcome">
+        <div class="popup__welcome">
+          <img src="./images/close.svg" alt="button close" class="popup__close">
+          <h3 class="popup__title">Добро пожаловать!</h3>
+          <p class="popup__explanation">
+            Пожалуйста 
+            <span class="entrance">войдите</span>
+            или 
+            <span class="signin">зарегестрируйтесь</span>, для добавления и просмотра фотографий!
+          </p>
         </div>
       </template>
     </div>
