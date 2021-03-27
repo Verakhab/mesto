@@ -9,6 +9,7 @@ const userInfoJob = root.querySelector('.user-info__job');
 const userInfoFoto = root.querySelector('.user-info__photo');
 const placesContainer = root.querySelector('.places-list');
 const cardFragment = root.querySelector('.template-card').content.querySelector('.place-card');
+const welcomeFragment = root.querySelector('.template-welcome').content.querySelector('.popup__welcome');
 const popupData = {
     formFragment: {
         signup: root.querySelector('.template-signup'),
@@ -49,5 +50,6 @@ export {
     userInfoFoto,
     placesContainer,
     popupData,
-    cardFragment
+    cardFragment,
+    welcomeFragment
 };

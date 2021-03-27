@@ -7,6 +7,7 @@ import {
   userInfoFoto,
   cardFragment,
   placesContainer,
+  welcomeFragment,
   popupData
 } from './scripts/constants/index';
 import {
@@ -21,17 +22,10 @@ import {
 import {
   Popup
 } from './scripts/Popup';
-import {
-  addClassOpen,
-  removeClassOpen,
-  exit,
-  entrance,
-  chekToken
-} from './scripts/utils/utils';
 
 const api = new Api(serverUrl);
 const cardListInstance = new CardList(placesContainer);
-
+export const popup = new Popup(popupData, requestApi);
 const getCardData = (cardData, userInfo) => {
   return {
     data: { ...cardData, currentUserId: userInfo._id },
@@ -65,44 +59,9 @@ const getCardData = (cardData, userInfo) => {
   }
 }
 
-if (localStorage.getItem('token')) {
-  api.getAppInfo()
-    .then(([userInfo, cardsInfo]) => {
-      userInfoFoto
-        .setAttribute('style',
-        `background-image:
-        url(${'data:' + userInfo.avatarType + ';base64,'+ (userInfo.avatar || userInfo.ava)})`);
-      userInfoName.textContent = userInfo.name;
-      userInfoJob.textContent = userInfo.about;
-      popupData.buttonPopupOpen.signup.style.display = 'none';
-      popupData.buttonPopupOpen.signin.style.display = 'none';
-      popupData.buttonPopupOpen.exit.style.display = 'block';
-      popupData.buttonPopupOpen.exit.textContent = userInfo.name + ' [->';
-      profile.setAttribute('style', 'display: flex');
-
-      cardListInstance.render(cardsInfo.map(card => getCardData(card, userInfo)),(arrCard) => {
-        return [].concat(arrCard).reduce((fragment, objCard) => {
-          const card = new Card(objCard,(data) => {
-            const newCard = cardFragment.cloneNode(true);
-            newCard.querySelector('.place-card__image')
-            .setAttribute(
-              'style',
-              `background-image: url(${'data:' + data.imageType + ';base64,' + data.imageCard})`
-            );
-            newCard.querySelector('.place-card__name').textContent = data.name;
-            return newCard;
-          })
-          fragment.append(card.node);
-          return fragment;
-        }, document.createDocumentFragment());
-      });
-    })
-    .catch(err => console.log(err));
-}
-    
-const requestApi = () => {
+function requestApi() {
   const popupLoader = root.querySelector('.loader');
-  popupLoader.setAttribute('style', 'display: block');
+  popupLoader.style.display = 'block';
   let formData;
   switch (document.forms[0]) {
     case document.forms.signup:
@@ -181,8 +140,9 @@ const requestApi = () => {
             if (card.message) {
               return Promise.reject(card.message);
             }
-            cardListInstance.render(getCardData(card, userInfo),(cardData) => {
-              const card = new Card(cardData,(data) => {
+            // cardListInstance.render(getCardData(card, userInfo),(cardData) => {
+              const cardData = getCardData(card, userInfo);
+              const cardd = new Card(cardData,(data) => {
                 const newCard = cardFragment.cloneNode(true);
                 newCard.querySelector('.place-card__image')
                   .setAttribute(
@@ -193,7 +153,7 @@ const requestApi = () => {
                 placesContainer.append(newCard);
                 return newCard;
               })
-            });
+            // });
             popup.close();
           })
           .catch(err => {
@@ -234,7 +194,9 @@ const requestApi = () => {
             return Promise.reject(res.message);
           }
           userInfoFoto
-            .setAttribute('style', `background-image: url(${'data:' + res.type + ';base64,' + res.ava})`);
+            .setAttribute(
+              'style',
+              `background-image: url(${'data:' + res.type + ';base64,' + res.ava})`);
           popup.close();
         })
         .catch(err => {
@@ -244,4 +206,42 @@ const requestApi = () => {
         });
   }
 }
-export const popup = new Popup(popupData, requestApi);
+
+
+if (!localStorage.getItem('token')) {
+  const welcomePopup = welcomeFragment.cloneNode(true);
+  popup.open(welcomePopup);
+} else {
+  api.getAppInfo()
+    .then(([userInfo, cardsInfo]) => {
+      userInfoFoto
+        .setAttribute('style',
+        `background-image:
+        url(${'data:' + userInfo.avatarType + ';base64,'+ (userInfo.avatar || userInfo.ava)})`);
+      userInfoName.textContent = userInfo.name;
+      userInfoJob.textContent = userInfo.about;
+      popupData.buttonPopupOpen.signup.style.display = 'none';
+      popupData.buttonPopupOpen.signin.style.display = 'none';
+      popupData.buttonPopupOpen.exit.style.display = 'block';
+      popupData.buttonPopupOpen.exit.textContent = userInfo.name + ' [->';
+      profile.setAttribute('style', 'display: flex');
+
+      cardListInstance.render(cardsInfo.map(card => getCardData(card, userInfo)),(arrCard) => {
+        return [].concat(arrCard).reduce((fragment, objCard) => {
+          const card = new Card(objCard,(data) => {
+            const newCard = cardFragment.cloneNode(true);
+            newCard.querySelector('.place-card__image')
+            .setAttribute(
+              'style',
+              `background-image: url(${'data:' + data.imageType + ';base64,' + data.imageCard})`
+            );
+            newCard.querySelector('.place-card__name').textContent = data.name;
+            return newCard;
+          })
+          fragment.append(card.node);
+          return fragment;
+        }, document.createDocumentFragment());
+      });
+    })
+    .catch(err => console.log(err));
+}

@@ -33,6 +33,12 @@ export class Popup {
       document.forms[0].querySelector('.popup__button')
         .addEventListener('click', this._handleRequest);
     }
+    if (elemClass === 'popup__welcome') {
+      document.querySelector('.entrance')
+        .addEventListener('click', this._elementPopup);
+      document.querySelector('.signin')
+        .addEventListener('click', this._elementPopup);
+    }
   }
   
   close() {
@@ -43,6 +49,11 @@ export class Popup {
       document
         .removeEventListener('keyup', this._handleEscClose);
       this._popupData.popupElement.lastElementChild.remove();
+    } else if (document.querySelector('.entrance') || document.querySelector('.signin')) {
+      document.querySelector('.entrance')
+        .removeEventListener('click', this._elementPopup);
+      document.querySelector('.signin')
+        .removeEventListener('click', this._elementPopup);
     } else {
       document.forms[0]
         .removeEventListener('click', this._validatorForm);
@@ -57,13 +68,25 @@ export class Popup {
   _elementPopup(e) {
     switch (e.target) {
       case this._popupData.buttonPopupOpen.signup:
-        const formSignup = this._popupData.formFragment.signup.content.cloneNode(true)
+        let formSignup = this._popupData.formFragment.signup.content.cloneNode(true)
           .querySelector('.popup__content');
         this.open(formSignup);
       break;
-      case this._popupData.buttonPopupOpen.signin:
-        const formLogin = this._popupData.formFragment.signin.content.cloneNode(true)
+      case document.querySelector('.signin'):
+        formSignup = this._popupData.formFragment.signup.content.cloneNode(true)
           .querySelector('.popup__content');
+        this.close();
+        this.open(formSignup);
+      break;
+      case this._popupData.buttonPopupOpen.signin:
+        let formLogin = this._popupData.formFragment.signin.content.cloneNode(true)
+          .querySelector('.popup__content');
+        this.open(formLogin);
+      break;
+      case document.querySelector('.entrance'):
+        formLogin = this._popupData.formFragment.signin.content.cloneNode(true)
+          .querySelector('.popup__content');
+        this.close();
         this.open(formLogin);
       break;
       case this._popupData.buttonPopupOpen.exit:

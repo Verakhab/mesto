@@ -6,7 +6,7 @@
     "scripts": {
         "build": "cross-env NODE_ENV=production rimraf dist && webpack --mode production",
         "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --open --watch",
-        "deploy": "cross-env NODE_ENV=production gh-pages -d dist && scp -r ./dist/* verakhab@84.252.131.143:/home/verakhab/mesto-frontend"
+        "deploy": "cross-env NODE_ENV=production gh-pages -d dist && scp -r ./dist/* verakhab@178.154.200.253:/home/verakhab/mesto-frontend"
     },
     "author": "Bakharev Denis",
     "license": "ISC",
