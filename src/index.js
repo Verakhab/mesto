@@ -140,20 +140,18 @@ function requestApi() {
             if (card.message) {
               return Promise.reject(card.message);
             }
-            // cardListInstance.render(getCardData(card, userInfo),(cardData) => {
-              const cardData = getCardData(card, userInfo);
-              const cardd = new Card(cardData,(data) => {
-                const newCard = cardFragment.cloneNode(true);
-                newCard.querySelector('.place-card__image')
-                  .setAttribute(
-                    'style',
-                    `background-image: url(${'data:' + data.imageType + ';base64,' + data.imageCard})`
-                  );
-                newCard.querySelector('.place-card__name').textContent = data.name;
-                placesContainer.append(newCard);
-                return newCard;
-              })
-            // });
+            const cardData = getCardData(card, userInfo);
+            const cardd = new Card(cardData,(data) => {
+              const newCard = cardFragment.cloneNode(true);
+              newCard.querySelector('.place-card__image')
+                .setAttribute(
+                  'style',
+                  `background-image: url(${'data:' + data.imageType + ';base64,' + data.imageCard})`
+                );
+              newCard.querySelector('.place-card__name').textContent = data.name;
+              placesContainer.append(newCard);
+              return newCard;
+            })
             popup.close();
           })
           .catch(err => {
